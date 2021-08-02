@@ -1,18 +1,18 @@
 {
   "apiVersion": "apps/v1",
   "kind": "Deployment",
-  "metadata": { "name": "tezosland-frontend" },
+  "metadata": { "name": "coopart-frontend" },
   "spec": {
     "replicas": 3,
-    "selector": { "matchLabels": { "app": "tezosland-frontend" } },
+    "selector": { "matchLabels": { "app": "coopart-frontend" } },
     "template": {
-      "metadata": { "labels": { "app": "tezosland-frontend" } },
+      "metadata": { "labels": { "app": "coopart-frontend" } },
       "spec": {
         "terminationGracePeriodSeconds": 30,
         "containers": [
           {
-            "name": "tezosland-frontend",
-            "image": "registry.digitalocean.com/rtx/tezosland-frontend",
+            "name": "coopart-frontend",
+            "image": "registry.digitalocean.com/rtx/coopart-frontend",
             "imagePullPolicy": "Always"
           }
         ]

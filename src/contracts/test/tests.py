@@ -109,7 +109,7 @@ class landContractTest(TestCase):
     #                               "last_used_id": 1,
     #                               "metadata": {(1, 100): {"token_id": 1,
     #                                                       "symbol": "TLD",
-    #                                                       "name": "TezosLand",
+    #                                                       "name": "coopart",
     #                                                       "decimals": 0,
     #                                                       "extras": {}
     #                                                       }
@@ -138,7 +138,7 @@ class landContractTest(TestCase):
     #             "last_used_id" : 1,
     #             "metadata" : { (1, 100): {"token_id" : 1,
     #                                     "symbol" : "TLD",
-    #                                     "name" : "TezosLand",
+    #                                     "name" : "coopart",
     #                                     "decimals" : 0,
     #                                     "extras" : {}
     #                                     }
@@ -162,7 +162,7 @@ class landContractTest(TestCase):
     #                     "last_used_id" : 1,
     #                     "metadata" : { (1, 100): {"token_id" : 1,
     #                                             "symbol" : "TLD",
-    #                                             "name" : "TezosLand",
+    #                                             "name" : "coopart",
     #                                             "decimals" : 0,
     #                                             "extras" : {}
     #                                             }

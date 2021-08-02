@@ -2,11 +2,11 @@
   "apiVersion": "v1",
   "kind": "Service",
   "metadata": {
-    "name": "tezosland-frontend-service"
+    "name": "coopart-frontend-service"
   },
   "spec": {
     "type": "LoadBalancer",
-    "selector": { "app": "tezosland-frontend" },
+    "selector": { "app": "coopart-frontend" },
     "ports": [
       {
         "protocol": "TCP",

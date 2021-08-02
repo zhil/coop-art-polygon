@@ -1,84 +1,69 @@
 // prettier-ignore
 import { useAccountPkh, useOnBlock, useReady, useTezos, useWallet } from "dapp/dapp";
-import { TEZOSLAND_ADDRESS } from "dapp/defaults";
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { Message, Page } from "styles";
+import { COOPART_ADDRESS } from 'dapp/defaults'
+import * as React from 'react'
+import { useEffect, useState } from 'react'
+import { Message, Page } from 'styles'
 
-import { AdminView } from "./Admin.view";
+import { AdminView } from './Admin.view'
 
 export type Coordinates = {
-  x: number;
-  y: number;
-};
+  x: number
+  y: number
+}
 
 type AdminProp = {
-  setMintTransactionPendingCallback: (b: boolean) => void;
-  mintTransactionPending: boolean;
-};
+  setMintTransactionPendingCallback: (b: boolean) => void
+  mintTransactionPending: boolean
+}
 
-export const Admin = ({
-  setMintTransactionPendingCallback,
-  mintTransactionPending,
-}: AdminProp) => {
-  const wallet = useWallet();
-  const ready = useReady();
-  const tezos = useTezos();
-  const accountPkh = useAccountPkh();
-  const [contract, setContract] = useState(undefined);
-  const [adminAdress, setAdminAdress] = useState(undefined);
-  const [existingTokenIds, setExistingTokenIds] = useState<Array<number>>([]);
+export const Admin = ({ setMintTransactionPendingCallback, mintTransactionPending }: AdminProp) => {
+  const wallet = useWallet()
+  const ready = useReady()
+  const tezos = useTezos()
+  const accountPkh = useAccountPkh()
+  const [contract, setContract] = useState(undefined)
+  const [adminAdress, setAdminAdress] = useState(undefined)
+  const [existingTokenIds, setExistingTokenIds] = useState<Array<number>>([])
 
   const loadStorage = React.useCallback(async () => {
     if (contract) {
-      const storage = await (contract as any).storage();
-      setExistingTokenIds(
-        storage["market"].landIds.map(
-          (landIdAsObject: { c: any[] }) => landIdAsObject.c[0]
-        )
-      );
-      setAdminAdress(storage.market.admin);
+      const storage = await (contract as any).storage()
+      setExistingTokenIds(storage['market'].landIds.map((landIdAsObject: { c: any[] }) => landIdAsObject.c[0]))
+      setAdminAdress(storage.market.admin)
     }
-  }, [contract]);
+  }, [contract])
 
   useEffect(() => {
-    loadStorage();
-  }, [loadStorage]);
+    loadStorage()
+  }, [loadStorage])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (tezos) {
-        const ctr = await (tezos as any).wallet.at(TEZOSLAND_ADDRESS);
-        setContract(ctr);
+        const ctr = await (tezos as any).wallet.at(COOPART_ADDRESS)
+        setContract(ctr)
       }
-    })();
-  }, [tezos, mintTransactionPending]);
+    })()
+  }, [tezos, mintTransactionPending])
 
-  useOnBlock(tezos, loadStorage);
+  useOnBlock(tezos, loadStorage)
 
   type MintToken = {
-    xCoordinates: number;
-    yCoordinates: number;
-    description: string;
-    landName: string;
-    owner: string;
-    operator?: string;
-  };
+    xCoordinates: number
+    yCoordinates: number
+    description: string
+    landName: string
+    owner: string
+    operator?: string
+  }
 
   const mint = React.useCallback(
-    ({
-      xCoordinates,
-      yCoordinates,
-      description,
-      landName,
-      owner,
-    }: MintToken) => {
-      return (contract as any).methods
-        .mint(xCoordinates, yCoordinates, description, landName, owner, owner)
-        .send();
+    ({ xCoordinates, yCoordinates, description, landName, owner }: MintToken) => {
+      return (contract as any).methods.mint(xCoordinates, yCoordinates, description, landName, owner, owner).send()
     },
-    [contract]
-  );
+    [contract],
+  )
 
   return (
     <Page>
@@ -91,9 +76,7 @@ export const Admin = ({
                   mintCallBack={mint}
                   connectedUser={(accountPkh as unknown) as string}
                   existingTokenIds={existingTokenIds}
-                  setMintTransactionPendingCallback={
-                    setMintTransactionPendingCallback
-                  }
+                  setMintTransactionPendingCallback={setMintTransactionPendingCallback}
                   mintTransactionPending={mintTransactionPending}
                 />
               ) : (
@@ -108,5 +91,5 @@ export const Admin = ({
         <Message>Please install the Thanos Wallet Chrome Extension.</Message>
       )}
     </Page>
-  );
-};
+  )
+}

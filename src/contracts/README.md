@@ -1,6 +1,6 @@
-# tezos-land
+# coop-art
 
-This repository contains sources for a boilerplate-NFT-game for Tezos blockchain called TezosLand. It is a gamified NFT  like Decentraland for Ethereum.
+This repository contains sources for a boilerplate-NFT-game for Tezos blockchain called coopart. It is a gamified NFT  like Decentraland for Ethereum.
 
 ### Tezos Node install
 
