@@ -1,9 +1,11 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro'
 
 export const Page = styled.div`
-  margin: 30px;
+  margin: 0 auto 20px auto;
+  width: 100%;
+  max-width: 1240px;
   position: relative;
-`;
+`
 
 export const GridPage = styled.div`
   margin: 30px;
@@ -31,13 +33,13 @@ export const GridPage = styled.div`
   @media (max-width: 500px) {
     grid-template-columns: repeat(1, 1fr);
   }
-`;
+`
 
 export const Message = styled.div`
-    text-align: center;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 50vh;
-`;
+  text-align: center;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 50vh;
+`

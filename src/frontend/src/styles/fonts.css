@@ -1,82 +1,39 @@
 @font-face {
-  font-family: 'Proxima Nova';
-  src: url('./fonts/ProximaNova-Thin.woff2') format('woff2'), url('./fonts/ProximaNova-Thin.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Proxima Nova';
-  src: url('./fonts/ProximaNova-Light.woff2') format('woff2'), url('./fonts/ProximaNova-Light.woff') format('woff');
+  font-family: 'Metropolis';
+  src: url('./fonts/Metropolis-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Proxima Nova';
-  src: url('./fonts/ProximaNova-Regular.woff2') format('woff2'), url('./fonts/ProximaNova-Regular.woff') format('woff');
+  font-family: 'Metropolis';
+  src: url('./fonts/Metropolis-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Proxima Nova';
-  src: url('./fonts/ProximaNova-Semibold.woff2') format('woff2'), url('./fonts/ProximaNova-Semibold.woff') format('woff');
-  font-weight: 600;
+  font-family: 'Metropolis';
+  src: url('./fonts/Metropolis-Medium.woff2') format('woff2');
+  font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Proxima Nova';
-  src: url('./fonts/ProximaNova-Bold.woff2') format('woff2'), url('./fonts/ProximaNova-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-Thin.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-Thin.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-Light.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-Regular.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-SemiBold.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-Bold.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-Bold.woff') format('woff');
+  font-family: 'Metropolis';
+  src: url('./fonts/Metropolis-Bold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Hurme Geometric Sans 4';
-  src: url('./fonts/HurmeGeometricSans4-Black.woff2') format('woff2'),
-    url('./fonts/HurmeGeometricSans4-Black.woff') format('woff');
-  font-weight: 900;
+  font-family: 'HurmeGeometricSans4';
+  src: url('./fonts/HurmeGeometricSans4.woff2') format('woff2');
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }

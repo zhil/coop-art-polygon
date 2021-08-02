@@ -14,7 +14,7 @@ export const clickWave = keyframes`
 export const ButtonStyled = styled.button`
   height: 36px;
   border: none;
-  font-family: 'Proxima Nova', Helvetica, Arial, sans-serif;
+  font-family: 'Metropolis', Helvetica, Arial, sans-serif;
   font-weight: normal;
   font-size: 14px;
   cursor: pointer;
