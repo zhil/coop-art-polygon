@@ -28,3 +28,12 @@ export const HomeTitle = styled.div`
   -webkit-text-fill-color: transparent;
   animation: ${gradiant} 30s ease-in-out infinite;
 `
+
+export const HomeButtons = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  width: 600px;
+  max-width: 80vw;
+  margin: auto;
+`

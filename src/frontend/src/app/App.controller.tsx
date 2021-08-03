@@ -1,29 +1,31 @@
-import { DAppProvider } from "dapp/dapp";
-import { APP_NAME } from "dapp/defaults";
-import { Admin } from "pages/Admin/Admin.controller";
-import { Buy } from "pages/Buy/Buy.controller";
-import { Help } from "pages/Help/Help.controller";
-import { Home } from "pages/Home/Home.controller";
-import { Map } from "pages/Map/Map.controller";
-import { Sell } from "pages/Sell/Sell.controller";
-import React from "react";
-import { useState } from "react";
-import { positions, Provider, types } from "react-alert";
+import { DAppProvider } from 'dapp/dapp'
+import { APP_NAME } from 'dapp/defaults'
+import { Admin } from 'pages/Admin/Admin.controller'
+import { Buy } from 'pages/Buy/Buy.controller'
+import { Create } from 'pages/Create/Create.controller'
+import { EditTiles } from 'pages/EditTiles/EditTiles.controller'
+import { Help } from 'pages/Help/Help.controller'
+import { Home } from 'pages/Home/Home.controller'
+import { Map } from 'pages/Map/Map.controller'
+import { Sell } from 'pages/Sell/Sell.controller'
+import React from 'react'
+import { useState } from 'react'
+import { positions, Provider, types } from 'react-alert'
 //@ts-ignore
-import AlertTemplate from "react-alert-template-basic";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import AlertTemplate from 'react-alert-template-basic'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
-import { Header } from "./App.components/Header/Header.controller";
-import { AppBg, AppContainer } from "./App.style";
+import { Header } from './App.components/Header/Header.controller'
+import { AppBg, AppContainer } from './App.style'
 
 const options = {
   timeout: 5000,
   position: positions.TOP_RIGHT,
   type: types.ERROR,
-};
+}
 
 export const App = () => {
-  const [transactionPending, setTransactionPending] = useState<boolean>(false);
+  const [transactionPending, setTransactionPending] = useState<boolean>(false)
 
   return (
     <Router>
@@ -37,15 +39,23 @@ export const App = () => {
                 <Route exact path="/">
                   <Home />
                 </Route>
+                <Route exact path="/create">
+                  <Create />
+                </Route>
+                <Route exact path="/edit-tiles">
+                  <EditTiles transactionPending={transactionPending} />
+                </Route>
                 <Route exact path="/admin">
-                  <Admin mintTransactionPending={transactionPending} setMintTransactionPendingCallback={setTransactionPending} />
+                  <Admin
+                    mintTransactionPending={transactionPending}
+                    setMintTransactionPendingCallback={setTransactionPending}
+                  />
                 </Route>
                 <Route exact path="/buy">
                   <Buy transactionPending={transactionPending} setTransactionPendingCallback={setTransactionPending} />
                 </Route>
                 <Route exact path="/sell">
-                  <Sell transactionPending={transactionPending}
-                        setTransactionPendingCallback={setTransactionPending} />
+                  <Sell transactionPending={transactionPending} setTransactionPendingCallback={setTransactionPending} />
                 </Route>
                 <Route exact path="/map">
                   <Map transactionPending={transactionPending} />
@@ -59,5 +69,5 @@ export const App = () => {
         </DAppProvider>
       </Provider>
     </Router>
-  );
-};
+  )
+}

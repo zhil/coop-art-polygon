@@ -1,13 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro'
 
-import {
-  backgroundColorDark,
-  borderColor,
-  downColor,
-  primaryColor,
-  upColor,
-  backgroundTextColor,
-} from '../../../styles'
+// prettier-ignore
+import { backgroundColorDark, backgroundTextColor, borderColor, downColor, primaryColor, upColor } from '../../../styles'
 
 export const InputStyled = styled.div`
   position: relative;
@@ -19,11 +13,12 @@ export const InputComponent = styled.input`
   display: block;
   position: relative;
   height: 40px;
-  padding: 12px 16px 12px 40px;
+  padding: 12px 16px 12px 16px;
+  text-align: center;
   border-width: 1px;
   border-style: solid;
   border-color: ${borderColor};
-  border-radius: 4px;
+  border-radius: 6px;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   will-change: border-color, box-shadow;
   background-color: ${backgroundColorDark};

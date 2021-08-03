@@ -1,9 +1,10 @@
 import styled from 'styled-components/macro'
 
 export const Page = styled.div`
-  margin: 0 auto 20px auto;
-  width: 100%;
-  max-width: 1240px;
+  margin: auto;
+  padding: 0 20px;
+  max-width: calc(100vw - 40px);
+  width: 1280px;
   position: relative;
 `
 

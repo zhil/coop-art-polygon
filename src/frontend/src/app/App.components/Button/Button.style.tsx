@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components/macro'
 
-import { primaryColor, secondaryColor, textColor } from '../../../styles'
+import { primaryColor, secondaryColor, textColor, bgTextColor } from '../../../styles'
 
 export const clickWave = keyframes`
   from {
@@ -14,8 +14,7 @@ export const clickWave = keyframes`
 export const ButtonStyled = styled.button`
   height: 36px;
   border: none;
-  font-family: 'Metropolis', Helvetica, Arial, sans-serif;
-  font-weight: normal;
+  font-weight: bold;
   font-size: 14px;
   cursor: pointer;
   border-radius: 6px;
@@ -29,7 +28,7 @@ export const ButtonStyled = styled.button`
   }
 
   &.primary {
-    color: ${textColor};
+    color: ${bgTextColor};
     background-color: ${primaryColor};
   }
 
@@ -57,14 +56,14 @@ export const ButtonText = styled.div`
 `
 
 export const ButtonIcon = styled.svg`
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   display: inline-block;
   vertical-align: sub;
-  margin-left: 15px;
+  margin-right: 15px;
 
   &.primary {
-    stroke: ${textColor};
+    stroke: ${bgTextColor};
   }
 
   &.secondary {
@@ -91,7 +90,7 @@ const path = keyframes`
 export const ButtonLoadingIcon = styled.svg`
   width: 16px;
   height: 16px;
-  margin-left: 15px;
+  margin-right: 15px;
   vertical-align: sub;
   stroke: ${textColor};
   stroke-width: 1px;

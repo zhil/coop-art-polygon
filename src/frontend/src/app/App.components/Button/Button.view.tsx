@@ -31,19 +31,19 @@ export const ButtonView = ({ text, icon, color, onClick, clickCallback, clicked,
       <ButtonText>
         {loading ? (
           <>
-            Waiting for confirmation
             <ButtonLoadingIcon>
               <use xlinkHref="/icons/sprites.svg#loading" />
             </ButtonLoadingIcon>
+            Waiting for confirmation
           </>
         ) : (
           <>
-            {text}
             {icon && (
               <ButtonIcon className={color}>
                 <use xlinkHref={`/icons/sprites.svg#${icon}`} />
               </ButtonIcon>
             )}
+            {text}
           </>
         )}
       </ButtonText>
