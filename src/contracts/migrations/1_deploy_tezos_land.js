@@ -3,7 +3,6 @@ const { MichelsonMap } = require("@taquito/taquito");
 const web3 = require("web3");
 const { pkh } = require("../faucet.json");
 
-
 const admin = pkh
 const empty_lands = new MichelsonMap()
 const empty_sales = []
@@ -30,7 +29,6 @@ const empty_operators = new MichelsonMap();
 
 // Set TZIP-16 contract metadata, with a JSON Blob
 metadata.set("", web3.utils.asciiToHex("sha256://0x19faf07472cc91927ff455a82c0d51a682164b3b18125e6a5b1763a14f09a60c/https:%2F%2Fcoopart.io%2Fmetadata%2Fcontract_metadata.json").slice(2));
-
 
 // Set TZIP-16 token metadata with a JSON Blob
 // token_info.set(

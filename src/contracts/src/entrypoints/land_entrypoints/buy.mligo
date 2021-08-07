@@ -20,7 +20,7 @@ let buy(buy_parameters, storage : buy_param * nft_token_storage) : (operation  l
           | None -> (failwith("This land is not owned by anyone") : address)
            in
 
-          let (ledger_with_token_transferred, owners_with_updated_buyer_and_seller, lands_with_updated_land ) : ledger * owners * lands = transfer_bought_token (buy_parameters.token_id, land_owner_before_sale, buyer, storage.operators, storage.ledger, storage.market.owners, storage.market.lands, Some(Tezos.self_address)) in
+          let (ledger_with_token_transferred, owners_with_updated_buyer_and_seller, _lands_with_updated_land ) : ledger * owners * lands = transfer_bought_token (buy_parameters.token_id, land_owner_before_sale, buyer, storage.operators, storage.ledger, storage.market.owners, storage.market.lands, Some(Tezos.self_address)) in
           let ledger_and_owners_are_consistent : bool = check_ownership_is_consistent_in_ledger_and_owners (({owner=buyer; token_id=buy_parameters.token_id} : ownership), ledger_with_token_transferred, owners_with_updated_buyer_and_seller) in
 
             if ledger_and_owners_are_consistent then

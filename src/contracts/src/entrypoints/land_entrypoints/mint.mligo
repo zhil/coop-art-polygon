@@ -37,5 +37,5 @@ let mint (mint_param, store : mint_param * nft_token_storage) : (operation  list
     in
     let token_owner_option : address option = Big_map.find_opt token_id store.ledger in
     match token_owner_option with
-    | Some(ownr) -> (failwith("This non-fungible token already exists"): (operation  list) * nft_token_storage)
+    | Some(_ownr) -> (failwith("This non-fungible token already exists"): (operation  list) * nft_token_storage)
     | None -> create_token_with_operator (mint_param, store)

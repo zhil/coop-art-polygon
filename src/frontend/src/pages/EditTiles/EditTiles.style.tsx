@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components/macro'
-import { backgroundTextColor, borderColor, subTextColor } from 'styles'
+import { backgroundTextColor, borderColor, subTextColor, textColor } from 'styles'
 
 export const EditTilesStyled = styled.div``
 
@@ -102,10 +102,64 @@ export const EditTilesTile = styled.div<{ width: number; height: number; showGri
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
   box-sizing: border-box;
+  position: relative;
 
   ${({ showGrid }) =>
     showGrid &&
     css`
       border: 1px solid ${borderColor};
     `}
+
+  > div {
+    position: absolute;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+    background-color: #ffffff50;
+    opacity: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      margin: 0;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  > img {
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
+  }
+`
+
+export const UploaderFileSelector = styled.div`
+  margin: 15px 0;
+  cursor: pointer;
+
+  > input {
+    display: none;
+  }
+`
+
+export const UploaderLabel = styled.label`
+  border: 1px dashed ${textColor};
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  color: ${textColor};
+  font-weight: bold;
+  padding: 10px;
+
+  > svg {
+    width: 24px;
+    height: 24px;
+    stroke: ${textColor};
+    margin-right: 10px;
+    margin-bottom: -8px;
+  }
 `

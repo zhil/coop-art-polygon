@@ -43,7 +43,10 @@ export const App = () => {
                   <Create />
                 </Route>
                 <Route exact path="/edit-tiles">
-                  <EditTiles transactionPending={transactionPending} />
+                  <EditTiles
+                    mintTransactionPending={transactionPending}
+                    setMintTransactionPendingCallback={setTransactionPending}
+                  />
                 </Route>
                 <Route exact path="/admin">
                   <Admin

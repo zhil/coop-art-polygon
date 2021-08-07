@@ -1,3 +1,3 @@
 export const APP_NAME = 'COOPART';
-export const NETWORK = 'edo2net';
-export const COOPART_ADDRESS = 'KT1VRZzacA4t8P594pYbtQQXcKehjz7Ybqum';
+export const NETWORK = 'florencenet';
+export const COOPART_ADDRESS = 'KT1Rr5bAh2R8Qmb8j7jVCMMS3WhZiQyA4Yw4';

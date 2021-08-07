@@ -1,7 +1,10 @@
+// prettier-ignore
+import { useAccountPkh, useOnBlock, useReady, useTezos, useWallet } from "dapp/dapp";
 import { COOPART_ADDRESS } from 'dapp/defaults'
+import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { Message, Page } from 'styles'
-import { TezosToolkit } from '@taquito/taquito'
+
 import { EditTilesView } from './EditTiles.view'
 
 export type Coordinates = {
@@ -9,86 +12,83 @@ export type Coordinates = {
   y: number
 }
 
-export enum LandType {
-  Road = 'Road',
-  Water = 'Water',
-  Land = 'Land',
-  District = 'District',
-  Plaza = 'Plaza',
-}
-
-export type Token = {
-  name?: string
-  description?: string
-  position: Coordinates
-  landType: LandType
-  isOwned: boolean
-  owner: string
-  onSale: boolean
-  price: number
-  id: number
-}
-
 type EditTilesProp = {
-  transactionPending: boolean
+  setMintTransactionPendingCallback: (b: boolean) => void
+  mintTransactionPending: boolean
 }
 
-export const EditTiles = ({ transactionPending }: EditTilesProp) => {
-  const rpcProvider: string = 'https://edonet.smartpy.io'
-  const tk: TezosToolkit = new TezosToolkit(rpcProvider)
-  const [contractTaquito, setContractTaquito] = useState(undefined)
-  const [tiles, setTiles] = useState<Token[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPending }: EditTilesProp) => {
+  const wallet = useWallet()
+  const ready = useReady()
+  const tezos = useTezos()
+  const accountPkh = useAccountPkh()
+  const [contract, setContract] = useState(undefined)
+  const [adminAdress, setEditTilesAdress] = useState(undefined)
+  const [existingTokenIds, setExistingTokenIds] = useState<Array<number>>([])
+
+  const loadStorage = React.useCallback(async () => {
+    if (contract) {
+      const storage = await (contract as any).storage()
+      setExistingTokenIds(storage['market'].landIds.map((landIdAsObject: { c: any[] }) => landIdAsObject.c[0]))
+      setEditTilesAdress(storage.market.admin)
+    }
+  }, [contract])
+
+  useEffect(() => {
+    loadStorage()
+  }, [loadStorage])
 
   useEffect(() => {
     ;(async () => {
-      const contract2: any = await tk.contract.at(COOPART_ADDRESS)
-      setContractTaquito(contract2)
-    })()
-  }, [transactionPending])
-
-  useEffect(() => {
-    ;(async () => {
-      if (contractTaquito) {
-        const storage: any = await (contractTaquito as any).storage()
-        const landIds = storage['market'].landIds
-        if (landIds) {
-          const tokenIds: number[] = landIds.map((token: { c: any[] }) => token.c[0])
-          const tiles2 = await Promise.all(
-            tokenIds.map(async (tokenId) => {
-              const tokenRaw = await storage.market.lands.get(tokenId.toString())
-              const token: Token = {
-                name: tokenRaw.name,
-                description: tokenRaw.description,
-                position: {
-                  x: tokenRaw.position[6].c[0],
-                  y: tokenRaw.position[7].c[0],
-                },
-                landType: LandType.District,
-                isOwned: tokenRaw.isOwned,
-                owner: tokenRaw.owner,
-                onSale: tokenRaw.onSale,
-                price: tokenRaw.price,
-                id: tokenRaw.id.c[0],
-              }
-              return token
-            }),
-          )
-          setTiles(tiles2)
-          setLoading(false)
-        }
+      if (tezos) {
+        const ctr = await (tezos as any).wallet.at(COOPART_ADDRESS)
+        setContract(ctr)
       }
     })()
-  }, [contractTaquito])
+  }, [tezos, mintTransactionPending])
 
-  // useOnBlock(tezos, loadStorage)
+  useOnBlock(tezos, loadStorage)
+
+  type MintToken = {
+    xCoordinates: number
+    yCoordinates: number
+    description: string
+    landName: string
+    owner: string
+    operator?: string
+  }
+
+  const mint = React.useCallback(
+    ({ xCoordinates, yCoordinates, description, landName, owner }: MintToken) => {
+      return (contract as any).methods.mint(xCoordinates, yCoordinates, description, landName, owner, owner).send()
+    },
+    [contract],
+  )
 
   return (
     <Page>
-      {tiles && tiles.length > 0 ? (
-        <EditTilesView existingTiles={tiles} />
+      {wallet ? (
+        <>
+          {ready ? (
+            <>
+              {accountPkh === adminAdress ? (
+                <EditTilesView
+                  mintCallBack={mint}
+                  connectedUser={(accountPkh as unknown) as string}
+                  existingTokenIds={existingTokenIds}
+                  setMintTransactionPendingCallback={setMintTransactionPendingCallback}
+                  mintTransactionPending={mintTransactionPending}
+                />
+              ) : (
+                <Message>You are not the admin of this smart contract</Message>
+              )}
+            </>
+          ) : (
+            <Message>Please connect your wallet</Message>
+          )}
+        </>
       ) : (
-        <div>{loading ? <Message>Loading tiles...</Message> : <Message>No tiles available</Message>}</div>
+        <Message>Please install the Thanos Wallet Chrome Extension.</Message>
       )}
     </Page>
   )

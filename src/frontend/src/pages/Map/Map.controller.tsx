@@ -1,4 +1,4 @@
-import { COOPART_ADDRESS } from 'dapp/defaults'
+import { COOPART_ADDRESS, NETWORK } from 'dapp/defaults'
 import { useEffect, useState } from 'react'
 import { Message, Page } from 'styles'
 import { TezosToolkit } from '@taquito/taquito'
@@ -34,7 +34,7 @@ type MapProp = {
 }
 
 export const Map = ({ transactionPending }: MapProp) => {
-  const rpcProvider: string = 'https://edonet.smartpy.io'
+  const rpcProvider: string = `https://${NETWORK}.smartpy.io`
   const tk: TezosToolkit = new TezosToolkit(rpcProvider)
   const [contractTaquito, setContractTaquito] = useState(undefined)
   const [tokens, setTokens] = useState<Token[]>([])
