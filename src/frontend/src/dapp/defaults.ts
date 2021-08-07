@@ -1,3 +1,4 @@
 export const APP_NAME = 'COOPART';
 export const NETWORK = 'florencenet';
-export const COOPART_ADDRESS = 'KT1Rr5bAh2R8Qmb8j7jVCMMS3WhZiQyA4Yw4';
+export const COOPART_ADDRESS = 'KT19wonFvARvVxkFsUBapTmNG9nReB4RrvRd';
+export const ADMIN = 'tz1YWK1gDPQx9N1Jh4JnmVre7xN6xhGGM4uC';

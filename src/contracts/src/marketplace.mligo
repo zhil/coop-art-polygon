@@ -28,7 +28,7 @@ let main (param, storage : nft_entry_points * nft_token_storage)
       : (operation  list) * nft_token_storage =
     match param with
     | Fa2 fa2 -> fa2_main (fa2, storage)
-    | Mint p -> mint(p,storage)
+    | Mint p -> mint(p, storage)
     | UpdateMetadata p -> updateMetadata(p, storage)
     | SellTile p -> sell(p, storage)
     | BuyTile p -> buy(p, storage)

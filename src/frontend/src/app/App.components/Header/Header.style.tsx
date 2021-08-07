@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { textColor } from 'styles'
+import { bgTextColor, subTextColor, textColor } from 'styles'
 
 export const HeaderStyled = styled.div`
   margin: 0 auto 20px auto;
@@ -10,21 +10,13 @@ export const HeaderStyled = styled.div`
   height: 50px;
   z-index: 1;
   display: grid;
-  grid-template-columns: 170px auto 100px 100px 100px 100px 100px;
+  grid-template-columns: 170px auto 100px 100px 150px;
   grid-gap: 10px;
 
-  > a {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 10px;
-    font-weight: bold;
-
-    svg {
-      stroke: ${textColor};
-      height: 22px;
-      width: 22px;
-      margin: 13px 3px 0 0;
-    }
+  > a:nth-child(3),
+  a:nth-child(4) {
+    color: ${subTextColor};
+    margin-top: 21px;
   }
 `
 
@@ -34,37 +26,15 @@ export const HeaderLogo = styled.img`
   width: 170px;
 `
 
-export const HeaderNoWallet = styled.div`
+export const HeaderButton = styled.div`
   cursor: pointer;
-
-  > a {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 10px;
-    font-weight: bold;
-
-    svg {
-      stroke: ${textColor};
-      height: 22px;
-      width: 22px;
-      margin: 13px 3px 0 0;
-    }
-  }
-`
-
-export const HeaderConnectWallet = styled.div`
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-gap: 10px;
+  background: ${textColor};
+  border-radius: 5px;
+  padding: 10px;
+  color: ${bgTextColor};
+  text-align: center;
   font-weight: bold;
-
-  svg {
-    stroke: ${textColor};
-    height: 22px;
-    width: 22px;
-    margin: 13px 3px 0 0;
-  }
+  margin-top: 10px;
 `
 
 export const HeaderAccount = styled.div`

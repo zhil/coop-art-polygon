@@ -6,7 +6,7 @@ import { Create } from 'pages/Create/Create.controller'
 import { EditTiles } from 'pages/EditTiles/EditTiles.controller'
 import { Help } from 'pages/Help/Help.controller'
 import { Home } from 'pages/Home/Home.controller'
-import { Map } from 'pages/Map/Map.controller'
+import { Marketplace } from 'pages/Marketplace/Marketplace.controller'
 import { Sell } from 'pages/Sell/Sell.controller'
 import React from 'react'
 import { useState } from 'react'
@@ -66,8 +66,11 @@ export const App = () => {
                 <Route exact path="/sell">
                   <Sell transactionPending={transactionPending} setTransactionPendingCallback={setTransactionPending} />
                 </Route>
-                <Route exact path="/map">
-                  <Map transactionPending={transactionPending} />
+                <Route exact path="/marketplace">
+                  <Marketplace
+                    transactionPending={transactionPending}
+                    setTransactionPendingCallback={setTransactionPending}
+                  />
                 </Route>
                 <Route exact path="/help">
                   <Help />

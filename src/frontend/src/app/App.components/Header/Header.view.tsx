@@ -1,8 +1,7 @@
-import * as React from 'react'
 import { Link } from 'react-router-dom'
 
 // prettier-ignore
-import { HeaderAccount, HeaderConnectWallet, HeaderLogo, HeaderNoWallet, HeaderStyled } from "./Header.style";
+import { HeaderButton, HeaderLogo, HeaderStyled } from "./Header.style";
 
 type HeaderViewProps = {
   balance?: number | null
@@ -29,65 +28,22 @@ export const HeaderView = ({
 
       <div />
 
-      <Link to="/buy">
-        <svg>
-          <use xlinkHref="/icons/sprites.svg#buy" />
-        </svg>
-        <div>BUY</div>
-      </Link>
+      <Link to="/marketplace">Marketplace</Link>
 
-      <Link to="/sell">
-        <svg>
-          <use xlinkHref="/icons/sprites.svg#sell" />
-        </svg>
-        <div>SELL</div>
-      </Link>
-
-      <Link to="/map">
-        <svg>
-          <use xlinkHref="/icons/sprites.svg#map" />
-        </svg>
-        <div>MAP</div>
-      </Link>
-
-      <Link to="/help">
-        <svg>
-          <use xlinkHref="/icons/sprites.svg#help" />
-        </svg>
-        <div>HELP</div>
-      </Link>
+      <Link to="/create">New canvas</Link>
 
       {wallet ? (
         <div>
           {ready ? (
-            <HeaderAccount>
-              <div>Account : {accountPkhPreview}</div>
-              <div>Balance : {balance} XTZ</div>
-              <HeaderConnectWallet onClick={handleNewConnect}>
-                <svg>
-                  <use xlinkHref="/icons/sprites.svg#wallet" />
-                </svg>
-                <div>CHANGE ACCOUNT</div>
-              </HeaderConnectWallet>
-            </HeaderAccount>
+            <HeaderButton onClick={handleNewConnect}>{accountPkhPreview}</HeaderButton>
           ) : (
-            <HeaderConnectWallet onClick={handleConnect}>
-              <svg>
-                <use xlinkHref="/icons/sprites.svg#wallet" />
-              </svg>
-              <div>CONNECT WALLET</div>
-            </HeaderConnectWallet>
+            <HeaderButton onClick={handleConnect}>Connect wallet</HeaderButton>
           )}
         </div>
       ) : (
-        <HeaderNoWallet>
-          <a href="https://templewallet.com/" target="_blank" rel="noopener noreferrer">
-            <svg>
-              <use xlinkHref="/icons/sprites.svg#wallet" />
-            </svg>
-            <div>INSTALL WALLET</div>
-          </a>
-        </HeaderNoWallet>
+        <HeaderButton onClick={() => window.open('https://templewallet.com/', '_blank')!.focus()}>
+          Install wallet
+        </HeaderButton>
       )}
     </HeaderStyled>
   )

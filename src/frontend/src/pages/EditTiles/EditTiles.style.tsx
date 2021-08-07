@@ -107,7 +107,7 @@ export const EditTilesTile = styled.div<{ width: number; height: number; showGri
   ${({ showGrid }) =>
     showGrid &&
     css`
-      border: 1px solid ${borderColor};
+      outline: 1px solid ${borderColor};
     `}
 
   > div {
@@ -141,7 +141,7 @@ export const UploaderFileSelector = styled.div`
   cursor: pointer;
 
   > input {
-    display: none;
+    width: 86px;
   }
 `
 

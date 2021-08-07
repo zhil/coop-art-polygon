@@ -1,6 +1,6 @@
 // prettier-ignore
 import { useAccountPkh, useOnBlock, useReady, useTezos, useWallet } from "dapp/dapp";
-import { COOPART_ADDRESS } from 'dapp/defaults'
+import { ADMIN, COOPART_ADDRESS } from 'dapp/defaults'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
@@ -58,10 +58,7 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
 
   const mintCallback = React.useCallback(
     ({ tileId, canvasId, x, y, image, owner }: Mint) => {
-      console.log(tileId, canvasId, x, y, image, owner, owner)
-      //xCoordinates, yCoordinates, description, landName, owner, owner
-      return (contract as any).methods.mint(1, 1, 'desc', 'nam', owner, owner).send()
-      //return (contract as any).methods.mint(tileId, canvasId, x, y, image, owner, owner).send()
+      return (contract as any).methods.mint(canvasId, image, ADMIN, owner, tileId, x, y).send()
     },
     [contract],
   )

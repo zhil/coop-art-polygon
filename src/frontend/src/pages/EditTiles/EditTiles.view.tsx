@@ -25,10 +25,10 @@ export type Tile = {
   x: number
   y: number
   image: string
-  //isOwned: bool
+  isOwned?: boolean
   owner?: string
-  // onSale: bool
-  //price: tez option
+  onSale?: boolean
+  price?: number
 }
 
 export const EditTilesView = ({
@@ -45,7 +45,6 @@ export const EditTilesView = ({
   const [tileHeight, setTileHeight] = useState(340)
   const [period, setPeriod] = useState(3)
   const [isUploading, setIsUploading] = useState(false)
-  const [hover, setHover] = useState({ x: -1, y: -1 })
   const alert = useAlert()
   if (!canvasId) canvasId = (Math.random() + 1).toString(36).substring(7)
 
@@ -71,11 +70,7 @@ export const EditTilesView = ({
   const canvasWidth = canvasSize.xMax - canvasSize.xMin + 1
   const canvasHeight = canvasSize.yMax - canvasSize.yMin + 1
 
-  async function handleUpload(file: any) {
-    const x = hover.x
-    const y = hover.y
-    console.log(x, y)
-
+  async function handleUpload(file: any, x: number, y: number) {
     const tileId = Math.floor(Math.random() * 1000000000000000000000)
 
     try {
@@ -198,24 +193,25 @@ export const EditTilesView = ({
                   })
                   .map((x) => (
                     <EditTilesTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight} showGrid={showGrid}>
-                      <div onMouseOver={() => setHover({ x, y })}>
+                      <div>
                         <div>
                           <p>{`Tile (${x}, ${y})`}</p>
                           <UploaderFileSelector>
-                            <UploaderLabel htmlFor="uploader">
-                              <svg>
-                                <use xlinkHref="/icons/sprites.svg#upload" />
-                              </svg>
-                              {isUploading ? 'Uploading...' : `Upload`}
-                            </UploaderLabel>
-                            <input
-                              id="uploader"
-                              type="file"
-                              accept="image/*"
-                              onChange={(e: any) => {
-                                e.target && e.target.files && e.target.files[0] && handleUpload(e.target.files[0])
-                              }}
-                            />
+                            {isUploading ? (
+                              <div>Uploading...</div>
+                            ) : (
+                              <input
+                                id="uploader"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e: any) => {
+                                  e.target &&
+                                    e.target.files &&
+                                    e.target.files[0] &&
+                                    handleUpload(e.target.files[0], x, y)
+                                }}
+                              />
+                            )}
                           </UploaderFileSelector>
                         </div>
                       </div>
