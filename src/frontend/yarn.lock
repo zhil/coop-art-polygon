@@ -2022,6 +2022,13 @@
     bs58check "^2.1.2"
     buffer "^5.6.0"
 
+"@temple-wallet/dapp@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@temple-wallet/dapp/-/dapp-4.0.1.tgz#e506bb5743570d308b46458fcee7dff43f4f8fd1"
+  integrity sha512-0ARUKpY5vGEmvaBFtc1n6lcX1P9wzIjupSe6X1lFZGxp/8vNO3wcI0lsOs2r/7swFTwmQ+P8lZbougd0JOfiWQ==
+  dependencies:
+    nanoid "^3.1.10"
+
 "@testing-library/dom@^7.28.1":
   version "7.31.2"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.31.2.tgz#df361db38f5212b88555068ab8119f5d841a8c4a"
@@ -2065,13 +2072,6 @@
   integrity sha512-IR0iWbFkgd56Bu5ZI/ej8yQwrkCv8Qydx6RzwbKz9faXazR/+5tvYKsZQgyXJiwgpcva127YO6JcWy7YlCfofQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
-
-"@thanos-wallet/dapp@^2.1.1":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@thanos-wallet/dapp/-/dapp-2.2.2.tgz#644c16c9c9a1b6521eaf391eee7d3dd7cd7cea31"
-  integrity sha512-FI22fVaU0AMeGrGAYHvIy5iPA3ttZaKPRbwOYK4NIvUCSc8Ah3FIhs196rY1BHtz9XgrhzBknbZ7PzGakV88qA==
-  dependencies:
-    nanoid "^3.1.10"
 
 "@tootallnate/once@1":
   version "1.1.2"

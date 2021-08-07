@@ -81,7 +81,7 @@ export const HeaderView = ({
         </div>
       ) : (
         <HeaderNoWallet>
-          <a href="https://thanoswallet.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://templewallet.com/" target="_blank" rel="noopener noreferrer">
             <svg>
               <use xlinkHref="/icons/sprites.svg#wallet" />
             </svg>

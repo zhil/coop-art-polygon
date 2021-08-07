@@ -1,13 +1,25 @@
 # Implementing FA2
 
 
-- [LIGO implementation](#ligo-implementation)
-- [Implementing Different Token Types with FA2](#implementing-different-token-types-with-fa2)
-  - [Single Fungible Token](#single-fungible-token)
-  - [Multiple Fungible Tokens](#multiple-fungible-tokens)
-  - [Non-fungible Tokens](#non-fungible-tokens)
-  - [Mixing Fungible and Non-fungible Tokens](#mixing-fungible-and-non-fungible-tokens)
-  - [Non-transferable Tokens](#non-transferable-tokens)
+- [Implementing FA2](#implementing-fa2)
+  - [LIGO implementation](#ligo-implementation)
+      - [`transfer`](#transfer)
+      - [`balance_of`](#balance_of)
+        - [`update_operators`](#update_operators)
+  - [Implementing Different Token Types With FA2](#implementing-different-token-types-with-fa2)
+    - [Single Fungible Token](#single-fungible-token)
+    - [Multiple Fungible Tokens](#multiple-fungible-tokens)
+    - [Non-fungible Tokens](#non-fungible-tokens)
+    - [Mixing Fungible and Non-fungible Tokens](#mixing-fungible-and-non-fungible-tokens)
+    - [Non-transferable Tokens](#non-transferable-tokens)
+  - [`assert_balances`](#assert_balances)
+  - [Transfer Hook](#transfer-hook)
+    - [Transfer Hook Motivation](#transfer-hook-motivation)
+    - [Transfer Hook Specification](#transfer-hook-specification)
+    - [`set_transfer_hook`](#set_transfer_hook)
+    - [Transfer Hook Examples](#transfer-hook-examples)
+      - [Default Permission Policy](#default-permission-policy)
+      - [Custom Receiver Hook/Transfer List Permission Policy](#custom-receiver-hooktransfer-list-permission-policy)
 
 
 ## LIGO implementation

@@ -3,81 +3,69 @@ import { Input } from 'app/App.components/Input/Input.controller'
 import { create } from 'ipfs-http-client'
 import { useState } from 'react'
 import { useAlert } from 'react-alert'
+import { Mint } from './EditTiles.controller'
 
 // prettier-ignore
 import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesMenu, EditTilesStyled, EditTilesTile, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
 
 const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
 
-type MintProps = {
-  owner: string
-  landType: string
-  xCoordinates: number
-  yCoordinates: number
-  landName: string
-  description: string
-}
-
 type EditTilesViewProps = {
-  mintCallBack: (mintProps: MintProps) => Promise<any>
+  mintCallback: (mintProps: Mint) => Promise<any>
   setMintTransactionPendingCallback: (b: boolean) => void
   connectedUser: string
   mintTransactionPending: boolean
   existingTokenIds: Array<number>
+  canvasId?: string
 }
 
 export type Tile = {
-  name?: string
-  image?: string
+  tileId: number
+  canvasId: string
   x: number
   y: number
-  owner: string
-  id: number
-  canvasId: number
+  image: string
+  //isOwned: bool
+  owner?: string
+  // onSale: bool
+  //price: tez option
 }
 
-const exampleTiles: Tile[] = [
-  {
-    name: 'hello0',
-    image: 'https://bafybeigvy3cwjbx6hflxxtog5yp7iorsl4z2oyiriaovdzhrbahlekjplu.ipfs.infura-ipfs.io/',
-    x: 0,
-    y: 0,
-    owner: '0x',
-    id: 0,
-    canvasId: 0,
-  },
-  {
-    name: 'hello1',
-    image: 'https://bafybeigvy3cwjbx6hflxxtog5yp7iorsl4z2oyiriaovdzhrbahlekjplu.ipfs.infura-ipfs.io/',
-    x: 3,
-    y: -2,
-    owner: '0x',
-    id: 1,
-    canvasId: 0,
-  },
-]
-
 export const EditTilesView = ({
-  mintCallBack,
+  mintCallback,
   connectedUser,
   existingTokenIds,
   setMintTransactionPendingCallback,
   mintTransactionPending,
+  canvasId,
 }: EditTilesViewProps) => {
   const [showGrid, setShowGrid] = useState(true)
-  const [tiles, setTiles] = useState<Tile[]>(exampleTiles)
+  const [tiles, setTiles] = useState<Tile[]>([])
   const [tileWidth, setTileWidth] = useState(340)
   const [tileHeight, setTileHeight] = useState(340)
   const [period, setPeriod] = useState(3)
   const [isUploading, setIsUploading] = useState(false)
   const [hover, setHover] = useState({ x: -1, y: -1 })
   const alert = useAlert()
+  if (!canvasId) canvasId = (Math.random() + 1).toString(36).substring(7)
 
   const [canvasSize, setCanvasSize] = useState<{ xMin: number; xMax: number; yMin: number; yMax: number }>({
-    xMin: tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.min(result, currentValue)),
-    xMax: tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.max(result, currentValue)),
-    yMin: tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.min(result, currentValue)),
-    yMax: tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.max(result, currentValue)),
+    xMin:
+      tiles.length > 0
+        ? tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.min(result, currentValue))
+        : 0,
+    xMax:
+      tiles.length > 0
+        ? tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.max(result, currentValue))
+        : 0,
+    yMin:
+      tiles.length > 0
+        ? tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.min(result, currentValue))
+        : 0,
+    yMax:
+      tiles.length > 0
+        ? tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.max(result, currentValue))
+        : 0,
   })
 
   const canvasWidth = canvasSize.xMax - canvasSize.xMin + 1
@@ -88,39 +76,35 @@ export const EditTilesView = ({
     const y = hover.y
     console.log(x, y)
 
+    const tileId = Math.floor(Math.random() * 1000000000000000000000)
+
     try {
       setIsUploading(true)
 
       // Upload to IPFS
       const added = await client.add(file)
       const image = `https://ipfs.infura.io/ipfs/${added.path}`
-      setTiles(
-        tiles.concat({
-          name: 'hello1',
-          image,
-          x,
-          y,
-          owner: '0x',
-          id: tiles.length,
-          canvasId: 0,
-        }),
-      )
+
+      const tile: Tile = {
+        tileId,
+        canvasId: canvasId as string,
+        x,
+        y,
+        image,
+        owner: connectedUser,
+      }
+
+      setTiles(tiles.concat(tile))
 
       // Mint token
       if (mintTransactionPending) {
         alert.info('Cannot mint a new land while the previous one is not minted...', { timeout: 10000 })
       } else {
-        mintCallBack({
-          owner: connectedUser,
-          landType: 'land',
-          xCoordinates: x,
-          yCoordinates: y,
-          landName: 'test',
-          description: 'test',
-        })
+        console.log(tile)
+        mintCallback(tile)
           .then((e) => {
             setMintTransactionPendingCallback(true)
-            alert.info('Minting a new tile...')
+            alert.info('Minting new tile...')
             e.confirmation().then((e: any) => {
               alert.success('New tile minted', {
                 onOpen: () => {
@@ -133,13 +117,14 @@ export const EditTilesView = ({
           })
           .catch((e: any) => {
             alert.show(e.message)
-            console.error(e.message)
+            console.error(e)
           })
       }
 
       setIsUploading(false)
     } catch (error) {
       alert.error(error.message)
+      console.error(error)
       setIsUploading(false)
     }
   }
@@ -215,13 +200,13 @@ export const EditTilesView = ({
                     <EditTilesTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight} showGrid={showGrid}>
                       <div onMouseOver={() => setHover({ x, y })}>
                         <div>
-                          <p>{`Tile coordinates (${x}, ${y})`}</p>
+                          <p>{`Tile (${x}, ${y})`}</p>
                           <UploaderFileSelector>
                             <UploaderLabel htmlFor="uploader">
                               <svg>
                                 <use xlinkHref="/icons/sprites.svg#upload" />
                               </svg>
-                              {isUploading ? 'Uploading...' : `Upload tile with IPFS`}
+                              {isUploading ? 'Uploading...' : `Upload`}
                             </UploaderLabel>
                             <input
                               id="uploader"

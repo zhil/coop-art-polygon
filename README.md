@@ -15,7 +15,7 @@ $ truffle migrate --network florencenet
 
 To start the frontend locally :
 ```
-// paste contract address to TEZOSLAND_ADDRESS in dapp/defaults.ts (or use the version already deployed)
+// paste contract address to COOPART_ADDRESS in dapp/defaults.ts (or use the version already deployed)
 $ cd ../frontend
 $ npm install
 $ npm start

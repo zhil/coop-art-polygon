@@ -89,7 +89,7 @@ export const Sell = ({ transactionPending, setTransactionPendingCallback }: Sell
         setLoading(false)
       }
     }
-  }, [alert, contract, accountPkh, transactionPending])
+  }, [alert, contract, accountPkh])
 
   useEffect(() => {
     loadStorage()
@@ -137,7 +137,7 @@ export const Sell = ({ transactionPending, setTransactionPendingCallback }: Sell
           )}
         </>
       ) : (
-        <Message>Please install the Thanos Wallet Chrome Extension.</Message>
+        <Message>Please install the Temple Wallet Chrome Extension.</Message>
       )}
     </>
   )

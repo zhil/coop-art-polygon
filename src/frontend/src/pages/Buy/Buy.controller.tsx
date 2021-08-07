@@ -47,6 +47,8 @@ export const Buy = ({ setTransactionPendingCallback, transactionPending }: BuyPr
   const [selectedToken, setSelectedToken] = useState<any>()
   const [loading, setLoading] = useState<boolean>(true)
 
+  console.log(selectedToken)
+
   useEffect(() => {
     ;(async () => {
       if (tezos) {
@@ -89,7 +91,7 @@ export const Buy = ({ setTransactionPendingCallback, transactionPending }: BuyPr
       setSelectedToken(tokensOnSaleList[0])
       setLoading(false)
     }
-  }, [contract, accountPkh, transactionPending])
+  }, [contract, accountPkh])
 
   useEffect(() => {
     loadStorage()
@@ -129,7 +131,7 @@ export const Buy = ({ setTransactionPendingCallback, transactionPending }: BuyPr
           )}
         </>
       ) : (
-        <Message>Please install the Thanos Wallet Chrome Extension.</Message>
+        <Message>Please install the Temple Wallet Chrome Extension.</Message>
       )}
     </Page>
   )

@@ -48,6 +48,12 @@ export const App = () => {
                     setMintTransactionPendingCallback={setTransactionPending}
                   />
                 </Route>
+                <Route exact path="/edit-tiles/:canvasId">
+                  <EditTiles
+                    mintTransactionPending={transactionPending}
+                    setMintTransactionPendingCallback={setTransactionPending}
+                  />
+                </Route>
                 <Route exact path="/admin">
                   <Admin
                     mintTransactionPending={transactionPending}

@@ -3,34 +3,41 @@ import { useAccountPkh, useOnBlock, useReady, useTezos, useWallet } from "dapp/d
 import { COOPART_ADDRESS } from 'dapp/defaults'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import { Message, Page } from 'styles'
 
 import { EditTilesView } from './EditTiles.view'
 
-export type Coordinates = {
+export type Mint = {
+  tileId: number
+  canvasId: string
   x: number
   y: number
+  image: string
+  owner?: string
 }
 
-type EditTilesProp = {
+type EditTilesProps = {
   setMintTransactionPendingCallback: (b: boolean) => void
   mintTransactionPending: boolean
 }
 
-export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPending }: EditTilesProp) => {
+export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPending }: EditTilesProps) => {
   const wallet = useWallet()
   const ready = useReady()
   const tezos = useTezos()
   const accountPkh = useAccountPkh()
   const [contract, setContract] = useState(undefined)
-  const [adminAdress, setEditTilesAdress] = useState(undefined)
+  // const [adminAdress, setEditTilesAdress] = useState(undefined)
   const [existingTokenIds, setExistingTokenIds] = useState<Array<number>>([])
+  let { canvasId } = useParams<{ canvasId?: string }>()
 
   const loadStorage = React.useCallback(async () => {
     if (contract) {
       const storage = await (contract as any).storage()
-      setExistingTokenIds(storage['market'].landIds.map((landIdAsObject: { c: any[] }) => landIdAsObject.c[0]))
-      setEditTilesAdress(storage.market.admin)
+      if (storage['market']?.landIds?.length > 0)
+        setExistingTokenIds(storage['market'].landIds.map((landIdAsObject: { c: any[] }) => landIdAsObject.c[0]))
+      // setEditTilesAdress(storage.market.admin)
     }
   }, [contract])
 
@@ -49,18 +56,12 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
 
   useOnBlock(tezos, loadStorage)
 
-  type MintToken = {
-    xCoordinates: number
-    yCoordinates: number
-    description: string
-    landName: string
-    owner: string
-    operator?: string
-  }
-
-  const mint = React.useCallback(
-    ({ xCoordinates, yCoordinates, description, landName, owner }: MintToken) => {
-      return (contract as any).methods.mint(xCoordinates, yCoordinates, description, landName, owner, owner).send()
+  const mintCallback = React.useCallback(
+    ({ tileId, canvasId, x, y, image, owner }: Mint) => {
+      console.log(tileId, canvasId, x, y, image, owner, owner)
+      //xCoordinates, yCoordinates, description, landName, owner, owner
+      return (contract as any).methods.mint(1, 1, 'desc', 'nam', owner, owner).send()
+      //return (contract as any).methods.mint(tileId, canvasId, x, y, image, owner, owner).send()
     },
     [contract],
   )
@@ -70,25 +71,20 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
       {wallet ? (
         <>
           {ready ? (
-            <>
-              {accountPkh === adminAdress ? (
-                <EditTilesView
-                  mintCallBack={mint}
-                  connectedUser={(accountPkh as unknown) as string}
-                  existingTokenIds={existingTokenIds}
-                  setMintTransactionPendingCallback={setMintTransactionPendingCallback}
-                  mintTransactionPending={mintTransactionPending}
-                />
-              ) : (
-                <Message>You are not the admin of this smart contract</Message>
-              )}
-            </>
+            <EditTilesView
+              mintCallback={mintCallback}
+              connectedUser={(accountPkh as unknown) as string}
+              existingTokenIds={existingTokenIds}
+              setMintTransactionPendingCallback={setMintTransactionPendingCallback}
+              mintTransactionPending={mintTransactionPending}
+              canvasId={canvasId}
+            />
           ) : (
             <Message>Please connect your wallet</Message>
           )}
         </>
       ) : (
-        <Message>Please install the Thanos Wallet Chrome Extension.</Message>
+        <Message>Please install the Temple Wallet Chrome Extension.</Message>
       )}
     </Page>
   )

@@ -1,7 +1,8 @@
 type sale = {
     token_id: token_id;
-    price: price;
+    price: tez;
 }
-type lands = (nat, land) big_map
+
+type tiles = (nat, tile) big_map
 
 type owners = (address, token_id set) big_map

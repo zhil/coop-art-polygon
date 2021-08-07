@@ -45,7 +45,7 @@ export const Map = ({ transactionPending }: MapProp) => {
       const contract2: any = await tk.contract.at(COOPART_ADDRESS)
       setContractTaquito(contract2)
     })()
-  }, [transactionPending])
+  }, [tk.contract, transactionPending])
 
   useEffect(() => {
     ;(async () => {

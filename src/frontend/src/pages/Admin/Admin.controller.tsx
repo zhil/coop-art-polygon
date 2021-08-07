@@ -88,7 +88,7 @@ export const Admin = ({ setMintTransactionPendingCallback, mintTransactionPendin
           )}
         </>
       ) : (
-        <Message>Please install the Thanos Wallet Chrome Extension.</Message>
+        <Message>Please install the Temple Wallet Chrome Extension.</Message>
       )}
     </Page>
   )

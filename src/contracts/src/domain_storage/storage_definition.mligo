@@ -1,7 +1,7 @@
 #if !FA2_TLD_DEF_TOKEN
 #define FA2_TLD_DEF_TOKEN
 
-#include "land_definition.mligo"
+#include "tile_definition.mligo"
 #include "marketplace_definition.mligo"
 #include "../tzip-12/lib/fa2_operator_lib.mligo"
 
@@ -10,8 +10,8 @@ type marketplace_storage = {
   height: nat;
   width: nat;
   sales: sale set;
-  lands: lands;
-  landIds: token_id set;
+  tiles: tiles;
+  tileIds: token_id set;
   owners: owners;
 }
 

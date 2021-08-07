@@ -4,19 +4,19 @@ const web3 = require("web3");
 const { pkh } = require("../faucet.json");
 
 const admin = pkh
-const empty_lands = new MichelsonMap()
+const empty_tiles = new MichelsonMap()
 const empty_sales = []
-const empty_land_ids = []
+const empty_tile_ids = []
 const empty_owners = new MichelsonMap()
-const lands_grid_height = 10
-const lands_grid_width = 10
+const tiles_grid_height = 10
+const tiles_grid_width = 10
 
 const market = {
-    "lands": empty_lands,
-    "landIds": empty_land_ids,
+    "tiles": empty_tiles,
+    "tileIds": empty_tile_ids,
     "admin": admin,
-    "height": lands_grid_height,
-    "width": lands_grid_width,
+    "height": tiles_grid_height,
+    "width": tiles_grid_width,
     "sales": empty_sales,
     "owners": empty_owners
 }

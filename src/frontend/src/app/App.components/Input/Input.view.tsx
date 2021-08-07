@@ -51,7 +51,7 @@ InputView.propTypes = {
   icon: PropTypes.string,
   placeholder: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   inputStatus: PropTypes.string,

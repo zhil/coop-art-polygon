@@ -81,12 +81,6 @@ const turn = keyframes`
   }
 `
 
-const path = keyframes`
-  100% {
-      stroke-dashoffset: 0;
-  }
-`
-
 export const ButtonLoadingIcon = styled.svg`
   width: 12px;
   height: 12px;
