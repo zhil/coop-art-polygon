@@ -1,22 +1,23 @@
 import { Button } from 'app/App.components/Button/Button.controller'
 import { Input } from 'app/App.components/Input/Input.controller'
 import { create } from 'ipfs-http-client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { Mint } from './EditTiles.controller'
 
 // prettier-ignore
-import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesMenu, EditTilesStyled, EditTilesTile, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
+import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
 
 const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
 
 type EditTilesViewProps = {
+  loadingTiles: boolean
   mintCallback: (mintProps: Mint) => Promise<any>
   setMintTransactionPendingCallback: (b: boolean) => void
   connectedUser: string
   mintTransactionPending: boolean
-  existingTokenIds: Array<number>
-  canvasId?: string
+  existingTiles: Tile[]
+  urlCanvasId?: string
 }
 
 export type Tile = {
@@ -32,46 +33,65 @@ export type Tile = {
 }
 
 export const EditTilesView = ({
+  loadingTiles,
   mintCallback,
   connectedUser,
-  existingTokenIds,
+  existingTiles,
   setMintTransactionPendingCallback,
   mintTransactionPending,
-  canvasId,
+  urlCanvasId,
 }: EditTilesViewProps) => {
   const [showGrid, setShowGrid] = useState(true)
-  const [tiles, setTiles] = useState<Tile[]>([])
+  const [tiles, setTiles] = useState<Tile[]>(existingTiles)
   const [tileWidth, setTileWidth] = useState(340)
   const [tileHeight, setTileHeight] = useState(340)
   const [period, setPeriod] = useState(3)
   const [isUploading, setIsUploading] = useState(false)
   const alert = useAlert()
-  if (!canvasId) canvasId = (Math.random() + 1).toString(36).substring(7)
-
-  const [canvasSize, setCanvasSize] = useState<{ xMin: number; xMax: number; yMin: number; yMax: number }>({
-    xMin:
-      tiles.length > 0
-        ? tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.min(result, currentValue))
-        : 0,
-    xMax:
-      tiles.length > 0
-        ? tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.max(result, currentValue))
-        : 0,
-    yMin:
-      tiles.length > 0
-        ? tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.min(result, currentValue))
-        : 0,
-    yMax:
-      tiles.length > 0
-        ? tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.max(result, currentValue))
-        : 0,
+  const [canvasId, setCanvasId] = useState(urlCanvasId)
+  const [canvasSize, setCanvasSize] = useState({
+    xMin: 0,
+    xMax: 0,
+    yMin: 0,
+    yMax: 0,
+    canvasWidth: 1,
+    canvasHeight: 1,
   })
 
-  const canvasWidth = canvasSize.xMax - canvasSize.xMin + 1
-  const canvasHeight = canvasSize.yMax - canvasSize.yMin + 1
+  useEffect(() => {
+    console.log(tiles)
+  }, [tiles])
+
+  useEffect(() => {
+    if (!urlCanvasId) setCanvasId((Math.random() + 1).toString(36).substring(7))
+  }, [urlCanvasId])
+
+  useEffect(() => {
+    if (existingTiles.length > 0) {
+      setTiles([...tiles, ...existingTiles])
+    }
+  }, [existingTiles])
+
+  useEffect(() => {
+    if (tiles.length > 0) {
+      const xMin = tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.min(result, currentValue))
+      const xMax = tiles.map((tile) => tile.x).reduce((result, currentValue) => Math.max(result, currentValue))
+      const yMin = tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.min(result, currentValue))
+      const yMax = tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.max(result, currentValue))
+
+      setCanvasSize({
+        xMin,
+        xMax,
+        yMin,
+        yMax,
+        canvasWidth: xMax - xMin + 1,
+        canvasHeight: yMax - yMin + 1,
+      })
+    }
+  }, [tiles])
 
   async function handleUpload(file: any, x: number, y: number) {
-    const tileId = Math.floor(Math.random() * 1000000000000000000000)
+    const tileId = Math.floor(Math.random() * 1000000) //TODO: Implement better tileId
 
     try {
       setIsUploading(true)
@@ -133,7 +153,7 @@ export const EditTilesView = ({
           <Button text="Show grid" icon="show" onClick={() => setShowGrid(true)} />
         )}
 
-        <Button text="Download canvas" icon="download" />
+        {/* <Button text="Download canvas" icon="download" /> */}
 
         <div>Tile size:</div>
         <Input
@@ -161,20 +181,35 @@ export const EditTilesView = ({
           onBlur={() => {}}
         />
         <div>days</div>
+
+        <div>
+          {loadingTiles && (
+            <EditTilesLoading>
+              <svg>
+                <use xlinkHref="/icons/sprites.svg#loading" />
+              </svg>
+              <div>Loading existingTiles...</div>
+            </EditTilesLoading>
+          )}
+        </div>
       </EditTilesMenu>
 
-      <EditTilesCanvas width={tileWidth * canvasWidth}>
+      <EditTilesCanvas width={tileWidth * canvasSize.canvasWidth}>
         <EditTilesCanvasLeft
-          height={tileHeight * canvasHeight}
-          onClick={() => setCanvasSize({ ...canvasSize, xMin: canvasSize.xMin - 1 })}
+          height={tileHeight * canvasSize.canvasHeight}
+          onClick={() =>
+            setCanvasSize({ ...canvasSize, xMin: canvasSize.xMin - 1, canvasWidth: canvasSize.canvasWidth + 1 })
+          }
         >
           <img alt="arrow" src="/icons/arrow.svg" />
         </EditTilesCanvasLeft>
 
         <div>
           <EditTilesCanvasTop
-            width={tileWidth * canvasWidth}
-            onClick={() => setCanvasSize({ ...canvasSize, yMin: canvasSize.yMin - 1 })}
+            width={tileWidth * canvasSize.canvasWidth}
+            onClick={() =>
+              setCanvasSize({ ...canvasSize, yMin: canvasSize.yMin - 1, canvasHeight: canvasSize.canvasHeight + 1 })
+            }
           >
             <img alt="arrow" src="/icons/arrow.svg" />
           </EditTilesCanvasTop>
@@ -185,7 +220,7 @@ export const EditTilesView = ({
               return idx + canvasSize.yMin
             })
             .map((y) => (
-              <EditTilesCanvasMiddle key={`y${y}`} tileWidth={tileWidth} canvasWidth={canvasWidth}>
+              <EditTilesCanvasMiddle key={`y${y}`} tileWidth={tileWidth} canvasWidth={canvasSize.canvasWidth}>
                 {/* @ts-ignore */}
                 {Array.apply(null, { length: canvasSize.xMax + 1 - canvasSize.xMin })
                   .map(function (_, idx) {
@@ -227,16 +262,20 @@ export const EditTilesView = ({
             ))}
 
           <EditTilesCanvasBottom
-            width={tileWidth * canvasWidth}
-            onClick={() => setCanvasSize({ ...canvasSize, yMax: canvasSize.yMax + 1 })}
+            width={tileWidth * canvasSize.canvasWidth}
+            onClick={() =>
+              setCanvasSize({ ...canvasSize, yMax: canvasSize.yMax + 1, canvasHeight: canvasSize.canvasHeight + 1 })
+            }
           >
             <img alt="arrow" src="/icons/arrow.svg" />
           </EditTilesCanvasBottom>
         </div>
 
         <EditTilesCanvasRight
-          height={tileHeight * canvasHeight}
-          onClick={() => setCanvasSize({ ...canvasSize, xMax: canvasSize.xMax + 1 })}
+          height={tileHeight * canvasSize.canvasHeight}
+          onClick={() =>
+            setCanvasSize({ ...canvasSize, xMax: canvasSize.xMax + 1, canvasWidth: canvasSize.canvasWidth + 1 })
+          }
         >
           <img alt="arrow" src="/icons/arrow.svg" />
         </EditTilesCanvasRight>

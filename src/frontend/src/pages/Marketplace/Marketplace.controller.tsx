@@ -22,37 +22,38 @@ export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
       const contract2: any = await tk.contract.at(COOPART_ADDRESS)
       setContractTaquito(contract2)
     })()
-  }, [tk.contract, transactionPending])
+  }, [transactionPending])
 
   useEffect(() => {
     ;(async () => {
       if (contractTaquito) {
         const storage: any = await (contractTaquito as any).storage()
-        const tileIds = storage['market'].tileIds
-        console.log('tileIds', tileIds)
-        if (tileIds) {
-          const tileNumbers: number[] = tileIds.map((tile: { c: any[] }) => tile.c[0])
+        const tileIdsBigNumbers = storage['market'].tileIds
+        if (tileIdsBigNumbers) {
+          const tileNumbers: number[] = tileIdsBigNumbers.map((tile: { c: any[] }) => tile.c[0])
           console.log('tileNumbers', tileNumbers)
 
           const tilesToShow = await Promise.all(
-            tileNumbers.map(async (tileId) => {
+            tileNumbers.map(async (tileId: number) => {
               const tileRaw = await storage.market.tiles.get(tileId.toString())
-              console.log(tileRaw)
-              const tile: Tile = {
-                tileId: tileRaw.id.c[0],
-                canvasId: tileRaw.canvasId,
-                x: tileRaw.x,
-                y: tileRaw.y,
-                image: tileRaw.image,
-                isOwned: tileRaw.isOwned,
-                owner: tileRaw.owner,
-                onSale: tileRaw.onSale,
-                price: tileRaw.price,
-              }
-              return tile
+              console.log('tileRaw', tileRaw)
+              if (tileRaw) {
+                const tile: Tile = {
+                  tileId: tileRaw.tileId.c[0],
+                  canvasId: tileRaw.canvasId,
+                  x: tileRaw.x,
+                  y: tileRaw.y,
+                  image: tileRaw.image,
+                  isOwned: tileRaw.isOwned,
+                  owner: tileRaw.owner,
+                  onSale: tileRaw.onSale,
+                  price: tileRaw.price,
+                }
+                return tile
+              } else return undefined
             }),
           )
-          setTiles(tilesToShow)
+          setTiles(tilesToShow.filter((tile) => tile !== undefined) as Tile[])
           setLoading(false)
         }
       }

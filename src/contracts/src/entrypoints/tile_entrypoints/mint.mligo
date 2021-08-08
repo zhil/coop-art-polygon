@@ -6,6 +6,9 @@ type mint_param = {
     image: string;
     owner: address;
     operator: address option;
+    deadline: timestamp;
+    tileWidth: nat;
+    tileHeight: nat;
 }
 (**
 Create a tile, and a token (they both have the same id), associate token to given owner, (and possibly setup an operator for this newly minted token).
@@ -19,7 +22,7 @@ let mint (mint_param, store : mint_param * nft_token_storage) : (operation  list
         let ledger_with_minted_token = Big_map.add token_id p.owner s.ledger in
         let ledger_and_owners_are_consistent : bool = check_ownership_is_consistent_in_ledger_and_owners (({owner=p.owner; token_id=token_id} : ownership), ledger_with_minted_token, new_owners) in
         if ledger_and_owners_are_consistent then
-            let new_tile = ({ tileId=token_id; canvasId=p.canvasId; x=p.x; y=p.y; image=p.image; isOwned=true; owner=p.owner; onSale=false ; price=(None:tez option) }:tile) in
+            let new_tile = ({ tileId=token_id; canvasId=p.canvasId; x=p.x; y=p.y; image=p.image; isOwned=true; owner=p.owner; onSale=false ; price=(None:tez option); deadline=p.deadline; tileWidth=p.tileWidth; tileHeight=p.tileHeight }:tile) in
             let tiles_with_new_tile = Big_map.add token_id new_tile s.market.tiles in
             let tiles_ids_with_new_id = Set.add token_id s.market.tileIds in
             match mint_param.operator with

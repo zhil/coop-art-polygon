@@ -1,14 +1,11 @@
 #if !FA2_TLD_DEF_TOKEN
 #define FA2_TLD_DEF_TOKEN
 
-#include "tile_definition.mligo"
 #include "marketplace_definition.mligo"
 #include "../tzip-12/lib/fa2_operator_lib.mligo"
 
 type marketplace_storage = {
   admin: address;
-  height: nat;
-  width: nat;
   sales: sale set;
   tiles: tiles;
   tileIds: token_id set;

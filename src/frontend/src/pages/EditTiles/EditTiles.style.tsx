@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components/macro'
+import styled, { css, keyframes } from 'styled-components/macro'
 import { backgroundTextColor, borderColor, subTextColor, textColor } from 'styles'
 
 export const EditTilesStyled = styled.div``
@@ -6,7 +6,7 @@ export const EditTilesStyled = styled.div``
 export const EditTilesMenu = styled.div`
   margin-top: 60px;
   display: grid;
-  grid-template-columns: 140px 200px 100px 90px 10px 90px 130px 90px 60px;
+  grid-template-columns: 140px 100px 90px 10px 90px 130px 90px 60px 200px;
   grid-gap: 20px;
 
   > div {
@@ -14,8 +14,8 @@ export const EditTilesMenu = styled.div`
     color: ${subTextColor};
   }
 
-  > div:nth-child(3),
-  div:nth-child(7) {
+  > div:nth-child(2),
+  div:nth-child(6) {
     text-align: right;
   }
 `
@@ -156,6 +156,28 @@ export const UploaderLabel = styled.label`
   padding: 10px;
 
   > svg {
+    width: 24px;
+    height: 24px;
+    stroke: ${textColor};
+    margin-right: 10px;
+    margin-bottom: -8px;
+  }
+`
+
+const turn = keyframes`
+  100% {
+      transform: rotate(-360deg);
+  }
+`
+
+export const EditTilesLoading = styled.div`
+  > div {
+    display: inline-block;
+  }
+
+  > svg {
+    animation: ${turn} 1.6s linear infinite forwards;
+    display: inline-block;
     width: 24px;
     height: 24px;
     stroke: ${textColor};

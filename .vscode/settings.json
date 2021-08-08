@@ -1,6 +1,5 @@
 ({
   "files.exclude": {
-    "LICENSE": true,
     "**/.DS_Store": true,
     "**/.git": true,
     "**/.webpack": true,

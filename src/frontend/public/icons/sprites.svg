@@ -142,10 +142,10 @@
     </symbol>
     <symbol id="loading" viewBox="0 0 24 24">
         <g id="Outline_Icons">
-            <g transform="matrix(-.97624 0 0 1 24.96 0)">
-                <polyline fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="1.5,8.994 4.5,13.494 8,9.494"/>
-                <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M 4.531,13.432 C 3.78,7.217 8.406,2.694 13.649,2.5 c 5.243,-0.191 9.65,3.902 9.844,9.145 0.192,5.244 -3.901,9.65 -9.145,9.844 -3.942,0.145 -7.41,-2.133 -8.973,-5.502"/>
-            </g>
+            <polyline fill="none" class="a" points="5.25 14.248 5.25 18.748 0.75 18.748"></polyline>
+            <polyline fill="none" class="a" points="18.75 9.748 18.75 5.248 23.25 5.248"></polyline>
+            <path fill="none" class="a" d="M19.032,5.245A9.752,9.752,0,0,1,8.246,21"></path>
+            <path fill="none" class="a" d="M4.967,18.751A9.753,9.753,0,0,1,15.754,3"></path>
         </g>
         <g id="Invisible_Shape">
             <rect fill="none" stroke="none" width="24" height="24"></rect>
