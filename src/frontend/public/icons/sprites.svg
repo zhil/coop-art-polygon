@@ -278,6 +278,42 @@
             <rect fill="none" stroke="none" width="24" height="24"></rect>
         </g>
     </symbol>
+    <symbol id="tilesborder" viewBox="0 0 24 24">
+        <g id="Outline_Icons">
+            <path d="M0.5 0.49707H10.5V10.4971H0.5V0.49707Z" fill="none"/>
+            <path d="M13.5 0.496948H23.5V10.4969H13.5V0.496948Z" fill="none"/>
+            <path d="M0.5 13.4969H10.5V23.4969H0.5V13.4969Z" fill="none"/>
+            <path d="M13.5 13.4969H23.5V23.4969H13.5V13.4969Z" fill="none"/>
+        </g>
+        <g id="Invisible_Shape">
+            <rect fill="none" stroke="none" width="24" height="24"></rect>
+        </g>
+    </symbol>
+    <symbol id="clock" viewBox="0 0 24 24">
+        <g id="Outline_Icons">
+            <path d="M12 23.5C18.3513 23.5 23.5 18.3513 23.5 12C23.5 5.64873 18.3513 0.5 12 0.5C5.64873 0.5 0.5 5.64873 0.5 12C0.5 18.3513 5.64873 23.5 12 23.5Z" fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.5 6.5V12L17.5 17.5" fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <g id="Invisible_Shape">
+            <rect fill="none" stroke="none" width="24" height="24"></rect>
+        </g>
+    </symbol>
+    <symbol id="xxx" viewBox="0 0 24 24">
+        <g id="Outline_Icons">
+
+        </g>
+        <g id="Invisible_Shape">
+            <rect fill="none" stroke="none" width="24" height="24"></rect>
+        </g>
+    </symbol>
+    <symbol id="xxx" viewBox="0 0 24 24">
+        <g id="Outline_Icons">
+
+        </g>
+        <g id="Invisible_Shape">
+            <rect fill="none" stroke="none" width="24" height="24"></rect>
+        </g>
+    </symbol>
     <symbol id="xxx" viewBox="0 0 24 24">
         <g id="Outline_Icons">
 

@@ -2,7 +2,7 @@ import { Tile } from 'pages/EditTiles/EditTiles.view'
 import { Link } from 'react-router-dom'
 
 // prettier-ignore
-import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceStyled } from './Marketplace.style'
+import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceStyled } from './Marketplace.style'
 
 type MarketplaceViewProps = {
   tiles: Tile[]
@@ -41,42 +41,50 @@ export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
           <Link to={`/edit-tiles/${canvasId}`}>
             <MarketplaceCanvas>
               <MarketplaceCanvasTiles>
-                {
-                  //@ts-ignore
-                  Array.apply(null, { length: canvasHeight })
-                    .map(function (_, idx) {
-                      return idx + yMin
-                    })
-                    .map((y) => (
-                      <MarketplaceCanvasTileContainer key={`y${y}`} tileWidth={tileWidth} canvasWidth={canvasWidth}>
-                        {/* @ts-ignore */}
-                        {Array.apply(null, { length: canvasWidth })
-                          .map(function (_, idx) {
-                            return idx + xMin
-                          })
-                          .map((x) => (
-                            <MarketplaceCanvasTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight}>
-                              {tilesInCanvas.filter((tile) => tile.x === x && tile.y === y).length > 0 && (
-                                <img
-                                  alt="tile"
-                                  src={
-                                    tilesInCanvas
-                                      .filter((tile) => tile.x === x && tile.y === y)
-                                      .map((tile) => tile.image)[0]
-                                  }
-                                />
-                              )}
-                            </MarketplaceCanvasTile>
-                          ))}
-                      </MarketplaceCanvasTileContainer>
-                    ))
-                }
+                <MarketplaceCanvasTileScaler>
+                  {
+                    //@ts-ignore
+                    Array.apply(null, { length: canvasHeight })
+                      .map(function (_, idx) {
+                        return idx + yMin
+                      })
+                      .map((y) => (
+                        <MarketplaceCanvasTileContainer key={`y${y}`} tileWidth={tileWidth} canvasWidth={canvasWidth}>
+                          {/* @ts-ignore */}
+                          {Array.apply(null, { length: canvasWidth })
+                            .map(function (_, idx) {
+                              return idx + xMin
+                            })
+                            .map((x) => (
+                              <MarketplaceCanvasTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight}>
+                                {tilesInCanvas.filter((tile) => tile.x === x && tile.y === y).length > 0 && (
+                                  <img
+                                    alt="tile"
+                                    src={
+                                      tilesInCanvas
+                                        .filter((tile) => tile.x === x && tile.y === y)
+                                        .map((tile) => tile.image)[0]
+                                    }
+                                  />
+                                )}
+                              </MarketplaceCanvasTile>
+                            ))}
+                        </MarketplaceCanvasTileContainer>
+                      ))
+                  }
+                </MarketplaceCanvasTileScaler>
               </MarketplaceCanvasTiles>
               <MarketplaceCanvasTileCount>
-                {`${tiles.filter((tile) => tile.canvasId === canvasId).length} tiles`}
+                <svg>
+                  <use xlinkHref="/icons/sprites.svg#tilesborder" />
+                </svg>
+                <div>{`${tiles.filter((tile) => tile.canvasId === canvasId).length} tiles`}</div>
               </MarketplaceCanvasTileCount>
               <MarketplaceCanvasTileExpiry>
-                {`${tiles.filter((tile) => tile.canvasId === canvasId)[0].deadline}`}
+                <svg>
+                  <use xlinkHref="/icons/sprites.svg#clock" />
+                </svg>
+                <div>{`${tiles.filter((tile) => tile.canvasId === canvasId)[0].deadline}`}</div>
               </MarketplaceCanvasTileExpiry>
               <MarketplaceCanvasTileContribute>Contribute</MarketplaceCanvasTileContribute>
             </MarketplaceCanvas>
