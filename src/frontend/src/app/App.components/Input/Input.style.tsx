@@ -23,6 +23,11 @@ export const InputComponent = styled.input`
   will-change: border-color, box-shadow;
   background-color: ${backgroundColorDark};
 
+  &:disabled {
+    background: #f1f1f1;
+    color: #6d6d6d;
+  }
+
   &:hover {
     border-color: ${primaryColor}7F;
   }

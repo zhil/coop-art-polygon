@@ -41,13 +41,16 @@ export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
                 const tile: Tile = {
                   tileId: tileRaw.tileId.c[0],
                   canvasId: tileRaw.canvasId,
-                  x: tileRaw.x,
-                  y: tileRaw.y,
+                  x: tileRaw.x.c[0],
+                  y: tileRaw.y.c[0],
                   image: tileRaw.image,
                   isOwned: tileRaw.isOwned,
                   owner: tileRaw.owner,
                   onSale: tileRaw.onSale,
                   price: tileRaw.price,
+                  deadline: tileRaw.deadline,
+                  tileHeight: tileRaw.tileHeight,
+                  tileWidth: tileRaw.tileWidth,
                 }
                 return tile
               } else return undefined

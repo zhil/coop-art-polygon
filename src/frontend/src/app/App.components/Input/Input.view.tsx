@@ -13,6 +13,7 @@ type InputViewProps = {
   inputStatus?: 'success' | 'error'
   type: string
   errorMessage?: string
+  disabled?: boolean
 }
 
 export const InputView = ({
@@ -25,6 +26,7 @@ export const InputView = ({
   inputStatus,
   type,
   errorMessage,
+  disabled,
 }: InputViewProps) => (
   <InputStyled>
     {icon && (
@@ -41,6 +43,7 @@ export const InputView = ({
       onChange={onChange}
       onBlur={onBlur}
       autoComplete={name}
+      disabled={disabled}
     />
     <InputStatus className={inputStatus} />
     {errorMessage && <InputErrorMessage>{errorMessage}</InputErrorMessage>}
@@ -57,6 +60,7 @@ InputView.propTypes = {
   inputStatus: PropTypes.string,
   type: PropTypes.string,
   errorMessage: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 InputView.defaultProps = {

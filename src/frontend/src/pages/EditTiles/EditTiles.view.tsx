@@ -30,6 +30,9 @@ export type Tile = {
   owner?: string
   onSale?: boolean
   price?: number
+  deadline: string
+  tileWidth: number
+  tileHeight: number
 }
 
 export const EditTilesView = ({
@@ -45,6 +48,7 @@ export const EditTilesView = ({
   const [tiles, setTiles] = useState<Tile[]>(existingTiles)
   const [tileWidth, setTileWidth] = useState(340)
   const [tileHeight, setTileHeight] = useState(340)
+  const [lockedInputs, setLockedInputs] = useState(false)
   const [period, setPeriod] = useState(3)
   const [isUploading, setIsUploading] = useState(false)
   const alert = useAlert()
@@ -69,6 +73,10 @@ export const EditTilesView = ({
   useEffect(() => {
     if (existingTiles.length > 0) {
       setTiles([...tiles, ...existingTiles])
+      setTileWidth(existingTiles[0].tileWidth)
+      setTileHeight(existingTiles[0].tileHeight)
+      setPeriod(3) //TODO
+      setLockedInputs(true)
     }
   }, [existingTiles])
 
@@ -107,6 +115,9 @@ export const EditTilesView = ({
         y,
         image,
         owner: connectedUser,
+        deadline: '2021-08-12t10:10:10Z', //TODO
+        tileWidth,
+        tileHeight,
       }
 
       setTiles(tiles.concat(tile))
@@ -162,6 +173,7 @@ export const EditTilesView = ({
           type="text"
           onChange={(e) => setTileWidth(e.target.value || 1)}
           onBlur={() => {}}
+          disabled={lockedInputs}
         />
         <div>x</div>
         <Input
@@ -170,6 +182,7 @@ export const EditTilesView = ({
           type="text"
           onChange={(e) => setTileHeight(e.target.value || 1)}
           onBlur={() => {}}
+          disabled={lockedInputs}
         />
 
         <div>Time period:</div>
@@ -179,6 +192,7 @@ export const EditTilesView = ({
           type="text"
           onChange={(e) => setPeriod(e.target.value || 1)}
           onBlur={() => {}}
+          disabled={lockedInputs}
         />
         <div>days</div>
 

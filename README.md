@@ -30,7 +30,7 @@ Click confirm to start the minting transaction. A notification in the top right 
 
 ### Contribute to existing canvas
 
-Let's now log with another Tezos account by clicking the address in the top right corner to simulate another user. Click _Marketplace_ and wait a few seconds for all canvas and tiles to load from the smart-contract's storage. Here you can see ob-going canvases that still have time left in their contribution period  and canvases that have expired and have automatically been put on sale. You can see the canvas we just created with one tile. Let's click it. The tile editor opens and fetches the tiles from the smart contract. Wait until the loading status in the top right corner disappears. Let me now expand the canvas on the right side with two new tiles. I'm going to upload an image for the first tile and ming the token.  And let me do the same for the second tile. I am now done contributing. If I reload the marketplace, I can see that the canvas does display my new tiles.
+Let's now log with another Tezos account by clicking the address in the top right corner to simulate another user. Click _Marketplace_ and wait a few seconds for all canvas and tiles to load from the smart-contract's storage. Here you can see on-going canvases that still have time left in their contribution period and canvases that have expired and have automatically been put on sale. You can see the canvas we just created with one tile. Let's click it. The tile editor opens and fetches the tiles from the smart contract. Wait until the loading status in the top right corner disappears. Let me now expand the canvas on the right side with two new tiles. I'm going to upload an image for the first tile and ming the token. And let me do the same for the second tile. I am now done contributing. If I reload the marketplace, I can see that the canvas does display my new tiles.
 
 ### Vote on tiles
 
@@ -46,7 +46,7 @@ Let me know your opinion about this. I'm also open to other suggestions.
 
 Once the contribution period of a canvas expires, no one can contribute to it anymore, and it is automatically put on sale in the marketplace. For now, I've only implemented a simple fixed price sale at 1 Tez as a proof of concept. I will develop a more robust auction sale system in phase II (more in the roadmap). You can click _Buy Canvas_ and submit the transaction. After a few seconds, all the tiles from the canvas will appear in your wallet. I had first created an entrypoint that would merge all the tiles into a single FA2 token for the whole canvas, but then I thought that keeping tiles separated might allow owners to sell them separately and create a sense of collection. Buyers would then try to buy all tiles to complete their collection and reconstitute the whole canvas. This would increase the value of a single tile to a collector that already has all of them except that one. Just like the _Infinity Stones_ in _The Avengers_, you just need to have them all! 
 
-I am not yet fully decided on the way to go. This is still a concept that I am still playing around with.  
+I am not yet fully decided on the way to go. This is still a concept that I am still playing around with. 
 
 Anyway, when a canvas is purchased, all the tile creators (except those that were voted out) are paid according to the number of tiles they contributed. E.g., if a canvas has 10 tiles and is sold for 1 Tez, each tile creator will receive 0.1 Tez. If someone contributed 2 tiles to that canvas, he would receive 0.2 Tez.
 

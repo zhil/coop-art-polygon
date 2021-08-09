@@ -15,6 +15,9 @@ export type Mint = {
   y: number
   image: string
   owner?: string
+  deadline: string
+  tileWidth: number
+  tileHeight: number
 }
 
 type EditTilesProps = {
@@ -55,6 +58,9 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
                 owner: tileRaw.owner,
                 onSale: tileRaw.onSale,
                 price: tileRaw.price,
+                deadline: tileRaw.deadline,
+                tileHeight: tileRaw.tileHeight,
+                tileWidth: tileRaw.tileWidth,
               }
               return tile
             } else return undefined
@@ -85,8 +91,10 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
   useOnBlock(tezos, loadStorage)
 
   const mintCallback = React.useCallback(
-    ({ tileId, canvasId, x, y, image, owner }: Mint) => {
-      return (contract as any).methods.mint(canvasId, image, ADMIN, owner, tileId, x, y).send()
+    ({ tileId, canvasId, x, y, image, owner, deadline, tileWidth, tileHeight }: Mint) => {
+      return (contract as any).methods
+        .mint(canvasId, deadline, image, ADMIN, owner, tileHeight, tileId, tileWidth, x, y)
+        .send()
     },
     [contract],
   )
