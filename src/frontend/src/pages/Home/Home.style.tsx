@@ -1,7 +1,9 @@
 import styled, { keyframes } from 'styled-components/macro'
 import { Page } from 'styles'
 
-export const HomeStyled = styled(Page)``
+export const HomeStyled = styled(Page)`
+  text-align: center;
+`
 
 const gradiant = keyframes`
     0% {
@@ -18,7 +20,7 @@ const gradiant = keyframes`
 export const HomeTitle = styled.div`
   width: 100%;
   text-align: center;
-  margin: 100px auto;
+  margin: 100px auto 0px auto;
   font-size: 80px;
   font-weight: bold;
   background-image: url('/images/gradiant.png');
