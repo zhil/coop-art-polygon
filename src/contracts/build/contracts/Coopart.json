@@ -12,10 +12,11 @@
     "NetXxkAx4woPLyu": {
       "events": {},
       "links": {},
-      "address": "KT1Q5ynszvFncBQBhucnXwvwPKeHPZsLW29u",
-      "transactionHash": "oo4D9iesZz7Rb3VMxA3RXA8hYf95Fu4LA8jw1i3sY1JsbrJUJcu"
+      "address": "KT1PtuHGb7moFsp27PqL6tkojktmUzCSUN2k",
+      "transactionHash": "opHnMLtG1FmoAGmNpkFVzsp7QwEXKFu27NXSTB4mHPVwUBBa1eX"
     }
   },
   "schemaVersion": "3.2.0-tezos.1",
-  "updatedAt": "2021-08-10T13:08:05.659Z"
+  "updatedAt": "2021-08-10T21:19:15.179Z",
+  "networkType": "tezos"
 }

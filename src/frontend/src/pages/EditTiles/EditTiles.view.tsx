@@ -6,7 +6,7 @@ import { useAlert } from 'react-alert'
 import { Mint } from './EditTiles.controller'
 
 // prettier-ignore
-import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
+import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, TileVoting, TileVotingButtons, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
 
 const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
 
@@ -240,38 +240,55 @@ export const EditTilesView = ({
                   .map(function (_, idx) {
                     return idx + canvasSize.xMin
                   })
-                  .map((x) => (
-                    <EditTilesTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight} showGrid={showGrid}>
-                      <div>
+                  .map((x) => {
+                    const tilesThere = tiles.filter((tile) => tile.x === x && tile.y === y)
+
+                    return (
+                      <EditTilesTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight} showGrid={showGrid}>
                         <div>
-                          <p>{`Tile (${x}, ${y})`}</p>
-                          <UploaderFileSelector>
-                            {isUploading ? (
-                              <div>Uploading...</div>
+                          <div>
+                            <p>{`Tile (${x}, ${y})`}</p>
+                            {tilesThere.length > 0 ? (
+                              <TileVoting>
+                                Vote on tile:
+                                <TileVotingButtons>
+                                  <img
+                                    alt="check"
+                                    src="/icons/check.svg"
+                                    onClick={() => alert.info('This feature is coming soon in phase II.')}
+                                  />
+                                  <img
+                                    alt="cross"
+                                    src="/icons/cross.svg"
+                                    onClick={() => alert.info('This feature is coming soon in phase II.')}
+                                  />
+                                </TileVotingButtons>
+                              </TileVoting>
                             ) : (
-                              <input
-                                id="uploader"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e: any) => {
-                                  e.target &&
-                                    e.target.files &&
-                                    e.target.files[0] &&
-                                    handleUpload(e.target.files[0], x, y)
-                                }}
-                              />
+                              <UploaderFileSelector>
+                                {isUploading ? (
+                                  <div>Uploading...</div>
+                                ) : (
+                                  <input
+                                    id="uploader"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e: any) => {
+                                      e.target &&
+                                        e.target.files &&
+                                        e.target.files[0] &&
+                                        handleUpload(e.target.files[0], x, y)
+                                    }}
+                                  />
+                                )}
+                              </UploaderFileSelector>
                             )}
-                          </UploaderFileSelector>
+                          </div>
                         </div>
-                      </div>
-                      {tiles.filter((tile) => tile.x === x && tile.y === y).length > 0 && (
-                        <img
-                          alt="tile"
-                          src={tiles.filter((tile) => tile.x === x && tile.y === y).map((tile) => tile.image)[0]}
-                        />
-                      )}
-                    </EditTilesTile>
-                  ))}
+                        {tilesThere.length > 0 && <img alt="tile" src={tilesThere.map((tile) => tile.image)[0]} />}
+                      </EditTilesTile>
+                    )
+                  })}
               </EditTilesCanvasMiddle>
             ))}
 

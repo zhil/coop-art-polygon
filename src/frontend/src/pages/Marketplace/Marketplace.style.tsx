@@ -73,7 +73,7 @@ export const MarketplaceCanvasTileContribute = styled.div`
 `
 
 export const MarketplaceCanvasTileScaler = styled.div`
-  transform: scale(0.3) translate3d(-50%, -50%, 0px);
+  transform: scale(0.5) translate3d(-50%, -50%, 0px);
 `
 
 export const MarketplaceCanvasTileContainer = styled.div<{ tileWidth: number; canvasWidth: number }>`

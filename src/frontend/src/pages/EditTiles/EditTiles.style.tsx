@@ -103,6 +103,7 @@ export const EditTilesTile = styled.div<{ width: number; height: number; showGri
   height: ${({ height }) => height}px;
   box-sizing: border-box;
   position: relative;
+  font-weight: bold;
 
   ${({ showGrid }) =>
     showGrid &&
@@ -114,7 +115,7 @@ export const EditTilesTile = styled.div<{ width: number; height: number; showGri
     position: absolute;
     width: ${({ width }) => width}px;
     height: ${({ height }) => height}px;
-    background-color: #ffffff50;
+    background-color: #ffffffa0;
     opacity: 0;
     text-align: center;
     display: flex;
@@ -184,4 +185,16 @@ export const EditTilesLoading = styled.div`
     margin-right: 10px;
     margin-bottom: -8px;
   }
+`
+
+export const TileVoting = styled.div`
+  margin: 10px 0;
+`
+
+export const TileVotingButtons = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
 `
