@@ -6,7 +6,7 @@ export const EditTilesStyled = styled.div``
 export const EditTilesMenu = styled.div`
   margin-top: 60px;
   display: grid;
-  grid-template-columns: 140px 100px 90px 10px 90px 130px 90px 60px 200px;
+  grid-template-columns: 140px 100px 90px 10px 90px 100px 250px 200px;
   grid-gap: 20px;
 
   > div {

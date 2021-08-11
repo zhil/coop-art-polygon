@@ -4,6 +4,7 @@ import { create } from 'ipfs-http-client'
 import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { Mint } from './EditTiles.controller'
+import dayjs from 'dayjs'
 
 // prettier-ignore
 import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, TileVoting, TileVotingButtons, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
@@ -49,7 +50,7 @@ export const EditTilesView = ({
   const [tileWidth, setTileWidth] = useState(340)
   const [tileHeight, setTileHeight] = useState(340)
   const [lockedInputs, setLockedInputs] = useState(false)
-  const [period, setPeriod] = useState(3)
+  const [deadline, setDeadline] = useState(dayjs().add(3, 'days').format())
   const [isUploading, setIsUploading] = useState(false)
   const alert = useAlert()
   const [canvasId, setCanvasId] = useState(urlCanvasId)
@@ -75,7 +76,7 @@ export const EditTilesView = ({
       setTiles([...tiles, ...existingTiles])
       setTileWidth(existingTiles[0].tileWidth)
       setTileHeight(existingTiles[0].tileHeight)
-      setPeriod(3) //TODO
+      setDeadline(existingTiles[0].deadline)
       setLockedInputs(true)
     }
   }, [existingTiles])
@@ -115,7 +116,7 @@ export const EditTilesView = ({
         y,
         image,
         owner: connectedUser,
-        deadline: '2021-08-12t10:10:10Z', //TODO
+        deadline,
         tileWidth,
         tileHeight,
       }
@@ -185,16 +186,15 @@ export const EditTilesView = ({
           disabled={lockedInputs}
         />
 
-        <div>Time period:</div>
+        <div>Deadline:</div>
         <Input
-          value={period}
+          value={deadline}
           placeholder="days"
           type="text"
-          onChange={(e) => setPeriod(e.target.value || 1)}
+          onChange={(e) => setDeadline(e.target.value || 1)}
           onBlur={() => {}}
           disabled={lockedInputs}
         />
-        <div>days</div>
 
         <div>
           {loadingTiles && (

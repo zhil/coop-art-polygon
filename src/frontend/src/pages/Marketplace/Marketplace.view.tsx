@@ -1,8 +1,9 @@
+import { Timer } from 'app/App.components/Timer/Timer.controller'
 import { Tile } from 'pages/EditTiles/EditTiles.view'
 import { Link } from 'react-router-dom'
 
 // prettier-ignore
-import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceStyled } from './Marketplace.style'
+import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceCanvasTileSold, MarketplaceContainer, MarketplaceStyled } from './Marketplace.style'
 
 type MarketplaceViewProps = {
   tiles: Tile[]
@@ -14,31 +15,32 @@ export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
 
   return (
     <MarketplaceStyled>
-      {canvasIds.map((canvasId) => {
-        const tilesInCanvas = tiles.filter((tile) => tile.canvasId === canvasId)
-        if (tilesInCanvas.length === 0) return <div />
+      <h1>Tile-based Canvases</h1>
+      <MarketplaceContainer>
+        {canvasIds.map((canvasId) => {
+          const tilesInCanvas = tiles.filter((tile) => tile.canvasId === canvasId)
+          const deadline = tiles.filter((tile) => tile.canvasId === canvasId)[0].deadline
 
-        const xMin = tilesInCanvas
-          .map((tile) => tile.x)
-          .reduce((result, currentValue) => Math.min(result, currentValue))
-        const xMax = tilesInCanvas
-          .map((tile) => tile.x)
-          .reduce((result, currentValue) => Math.max(result, currentValue))
-        const yMin = tilesInCanvas
-          .map((tile) => tile.y)
-          .reduce((result, currentValue) => Math.min(result, currentValue))
-        const yMax = tilesInCanvas
-          .map((tile) => tile.y)
-          .reduce((result, currentValue) => Math.max(result, currentValue))
-        const canvasWidth = xMax - xMin + 1
-        const canvasHeight = yMax - yMin + 1
-        const tileWidth = tilesInCanvas[0].tileWidth
-        const tileHeight = tilesInCanvas[0].tileHeight
+          const xMin = tilesInCanvas
+            .map((tile) => tile.x)
+            .reduce((result, currentValue) => Math.min(result, currentValue))
+          const xMax = tilesInCanvas
+            .map((tile) => tile.x)
+            .reduce((result, currentValue) => Math.max(result, currentValue))
+          const yMin = tilesInCanvas
+            .map((tile) => tile.y)
+            .reduce((result, currentValue) => Math.min(result, currentValue))
+          const yMax = tilesInCanvas
+            .map((tile) => tile.y)
+            .reduce((result, currentValue) => Math.max(result, currentValue))
+          const canvasWidth = xMax - xMin + 1
+          const canvasHeight = yMax - yMin + 1
+          const tileWidth = tilesInCanvas[0].tileWidth
+          const tileHeight = tilesInCanvas[0].tileHeight
 
-        console.log(tilesInCanvas)
+          console.log(tilesInCanvas)
 
-        return (
-          <Link to={`/edit-tiles/${canvasId}`}>
+          return (
             <MarketplaceCanvas>
               <MarketplaceCanvasTiles>
                 <MarketplaceCanvasTileScaler>
@@ -80,17 +82,34 @@ export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
                 </svg>
                 <div>{`${tiles.filter((tile) => tile.canvasId === canvasId).length} tiles`}</div>
               </MarketplaceCanvasTileCount>
-              <MarketplaceCanvasTileExpiry>
-                <svg>
-                  <use xlinkHref="/icons/sprites.svg#clock" />
-                </svg>
-                <div>{`${tiles.filter((tile) => tile.canvasId === canvasId)[0].deadline}`}</div>
-              </MarketplaceCanvasTileExpiry>
-              <MarketplaceCanvasTileContribute>Contribute</MarketplaceCanvasTileContribute>
+
+              {new Date(deadline).getTime() - new Date().getTime() > 0 ? (
+                <>
+                  <MarketplaceCanvasTileExpiry>
+                    <svg>
+                      <use xlinkHref="/icons/sprites.svg#clock" />
+                    </svg>
+                    <Timer deadline={deadline} />
+                  </MarketplaceCanvasTileExpiry>
+                  <Link to={`/edit-tiles/${canvasId}`}>
+                    <MarketplaceCanvasTileContribute>Contribute</MarketplaceCanvasTileContribute>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <MarketplaceCanvasTileExpiry>
+                    <svg>
+                      <use xlinkHref="/icons/sprites.svg#clock" />
+                    </svg>
+                    <div>Finished</div>
+                  </MarketplaceCanvasTileExpiry>
+                  <MarketplaceCanvasTileSold>Sold for 1 XTZ</MarketplaceCanvasTileSold>
+                </>
+              )}
             </MarketplaceCanvas>
-          </Link>
-        )
-      })}
+          )
+        })}
+      </MarketplaceContainer>
     </MarketplaceStyled>
   )
 }

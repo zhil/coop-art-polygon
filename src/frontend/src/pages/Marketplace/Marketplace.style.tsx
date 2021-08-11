@@ -1,9 +1,14 @@
 import styled from 'styled-components/macro'
 
 export const MarketplaceStyled = styled.div`
+  margin: 20px auto;
+`
+
+export const MarketplaceContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 290px);
   grid-gap: 20px;
+  margin: 0 auto 40px auto;
 `
 
 export const MarketplaceCanvas = styled.div`
@@ -64,6 +69,19 @@ export const MarketplaceCanvasTileContribute = styled.div`
   height: 32px;
   background-color: #fff;
   color: #000;
+  font-weight: bold;
+  border-radius: 5px;
+  overflow: hidden;
+  text-align: center;
+  line-height: 32px;
+  margin-top: 10px;
+`
+
+export const MarketplaceCanvasTileSold = styled.div`
+  width: 270px;
+  height: 32px;
+  background-color: #000;
+  color: #fff;
   font-weight: bold;
   border-radius: 5px;
   overflow: hidden;
