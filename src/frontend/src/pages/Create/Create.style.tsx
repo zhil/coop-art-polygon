@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components/macro'
-import { bgTextColor, Page, primaryColor } from 'styles'
+import { backgroundColor, Page, primaryColor } from 'styles'
 
 export const CreateStyled = styled(Page)``
 
@@ -65,7 +65,7 @@ export const CreateGridCell = styled.div`
   }
 
   > div {
-    color: ${bgTextColor};
+    color: ${backgroundColor};
   }
 `
 
@@ -74,6 +74,6 @@ export const CreateGridCellTitle = styled.div`
   font-size: 50px;
   line-height: 50px;
   text-align: center;
-  color: ${bgTextColor};
+  color: ${backgroundColor};
   margin: 40px auto 0 auto;
 `

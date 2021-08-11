@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { bgTextColor, subTextColor, textColor } from 'styles'
+import { backgroundColor, subTextColor, textColor } from 'styles'
 
 export const HeaderStyled = styled.div`
   margin: 0 auto 20px auto;
@@ -31,7 +31,7 @@ export const HeaderButton = styled.div`
   background: ${textColor};
   border-radius: 5px;
   padding: 10px;
-  color: ${bgTextColor};
+  color: ${backgroundColor};
   text-align: center;
   font-weight: bold;
   margin-top: 10px;

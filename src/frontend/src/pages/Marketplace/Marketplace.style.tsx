@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { backgroundColor, borderColor, textColor } from 'styles'
 
 export const MarketplaceStyled = styled.div`
   margin: 20px auto;
@@ -14,8 +15,9 @@ export const MarketplaceContainer = styled.div`
 export const MarketplaceCanvas = styled.div`
   width: 290px;
   height: 330px;
-  background-color: #000;
-  color: #fff;
+  background-color: ${backgroundColor};
+  color: ${textColor};
+  border: 1px solid ${borderColor};
   border-radius: 10px;
   padding: 10px;
 `
@@ -23,9 +25,10 @@ export const MarketplaceCanvas = styled.div`
 export const MarketplaceCanvasTiles = styled.div`
   width: 270px;
   height: 200px;
-  background-color: #fff;
+  border: 1px solid ${borderColor};
   border-radius: 5px;
   overflow: hidden;
+  position: relative;
 `
 
 export const MarketplaceCanvasTileCount = styled.div`
@@ -34,7 +37,7 @@ export const MarketplaceCanvasTileCount = styled.div`
   > svg {
     width: 24px;
     height: 24px;
-    stroke: #fff;
+    stroke: ${borderColor};
     display: inline-block;
   }
 
@@ -52,7 +55,7 @@ export const MarketplaceCanvasTileExpiry = styled.div`
   > svg {
     width: 24px;
     height: 24px;
-    stroke: #fff;
+    stroke: ${borderColor};
     display: inline-block;
   }
 
@@ -67,8 +70,9 @@ export const MarketplaceCanvasTileExpiry = styled.div`
 export const MarketplaceCanvasTileContribute = styled.div`
   width: 270px;
   height: 32px;
-  background-color: #fff;
-  color: #000;
+  background-color: ${backgroundColor};
+  color: ${textColor};
+  border: 1px solid ${borderColor};
   font-weight: bold;
   border-radius: 5px;
   overflow: hidden;
@@ -80,8 +84,8 @@ export const MarketplaceCanvasTileContribute = styled.div`
 export const MarketplaceCanvasTileSold = styled.div`
   width: 270px;
   height: 32px;
-  background-color: #000;
-  color: #fff;
+  background-color: ${backgroundColor};
+  color: ${textColor};
   font-weight: bold;
   border-radius: 5px;
   overflow: hidden;
@@ -90,8 +94,12 @@ export const MarketplaceCanvasTileSold = styled.div`
   margin-top: 10px;
 `
 
-export const MarketplaceCanvasTileScaler = styled.div`
-  transform: scale(0.5) translate3d(-50%, -50%, 0px);
+export const MarketplaceCanvasTileScaler = styled.div<{ scale: number }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(${(props) => props.scale});
+  transform-origin: top left;
 `
 
 export const MarketplaceCanvasTileContainer = styled.div<{ tileWidth: number; canvasWidth: number }>`

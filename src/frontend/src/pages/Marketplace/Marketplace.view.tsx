@@ -43,7 +43,7 @@ export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
           return (
             <MarketplaceCanvas>
               <MarketplaceCanvasTiles>
-                <MarketplaceCanvasTileScaler>
+                <MarketplaceCanvasTileScaler scale={270 / (canvasWidth * tileWidth || 1)}>
                   {
                     //@ts-ignore
                     Array.apply(null, { length: canvasHeight })

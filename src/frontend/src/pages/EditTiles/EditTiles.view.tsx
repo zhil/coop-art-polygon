@@ -46,7 +46,8 @@ export const EditTilesView = ({
   urlCanvasId,
 }: EditTilesViewProps) => {
   const [showGrid, setShowGrid] = useState(true)
-  const [tiles, setTiles] = useState<Tile[]>(existingTiles)
+  const [tiles, setTiles] = useState<Tile[]>([])
+  const [newTiles, setNewTiles] = useState<Tile[]>([])
   const [tileWidth, setTileWidth] = useState(340)
   const [tileHeight, setTileHeight] = useState(340)
   const [lockedInputs, setLockedInputs] = useState(false)
@@ -73,7 +74,7 @@ export const EditTilesView = ({
 
   useEffect(() => {
     if (existingTiles.length > 0) {
-      setTiles([...tiles, ...existingTiles])
+      setTiles([...newTiles, ...existingTiles])
       setTileWidth(existingTiles[0].tileWidth)
       setTileHeight(existingTiles[0].tileHeight)
       setDeadline(existingTiles[0].deadline)
@@ -88,14 +89,15 @@ export const EditTilesView = ({
       const yMin = tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.min(result, currentValue))
       const yMax = tiles.map((tile) => tile.y).reduce((result, currentValue) => Math.max(result, currentValue))
 
-      setCanvasSize({
-        xMin,
-        xMax,
-        yMin,
-        yMax,
-        canvasWidth: xMax - xMin + 1,
-        canvasHeight: yMax - yMin + 1,
-      })
+      if (xMin < canvasSize.xMin || xMax > canvasSize.xMax || yMin < canvasSize.yMin || yMax > canvasSize.yMax)
+        setCanvasSize({
+          xMin,
+          xMax,
+          yMin,
+          yMax,
+          canvasWidth: xMax - xMin + 1,
+          canvasHeight: yMax - yMin + 1,
+        })
     }
   }, [tiles])
 
@@ -121,7 +123,8 @@ export const EditTilesView = ({
         tileHeight,
       }
 
-      setTiles(tiles.concat(tile))
+      setNewTiles(newTiles.concat(tile))
+      setTiles([...newTiles.concat(tile), ...existingTiles])
 
       // Mint token
       if (mintTransactionPending) {
@@ -202,7 +205,7 @@ export const EditTilesView = ({
               <svg>
                 <use xlinkHref="/icons/sprites.svg#loading" />
               </svg>
-              <div>Loading existingTiles...</div>
+              <div>Loading existing tiles...</div>
             </EditTilesLoading>
           )}
         </div>

@@ -1,21 +1,14 @@
 import styled, { keyframes } from 'styled-components/macro'
 
-import {
-  backgroundColorDark,
-  borderColor,
-  downColor,
-  primaryColor,
-  upColor,
-  backgroundTextColor,
-} from '../../../styles'
+import { backgroundColor, borderColor, downColor, primaryColor, upColor, backgroundTextColor } from '../../../styles'
 
-export const DropDownStyled = styled("div")`
-width: 10.5em;
-margin: 0 auto;
-`;
+export const DropDownStyled = styled('div')`
+  width: 10.5em;
+  margin: 0 auto;
+`
 
-export const DropDownHeader = styled("div")`
-width: 100%;
+export const DropDownHeader = styled('div')`
+  width: 100%;
   display: block;
   position: relative;
   height: 40px;
@@ -26,13 +19,13 @@ width: 100%;
   border-radius: 4px;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   will-change: border-color, box-shadow;
-  background-color: ${backgroundColorDark};
-`;
+  background-color: ${backgroundColor};
+`
 
-export const DropDownListContainer = styled("div")``;
+export const DropDownListContainer = styled('div')``
 
-export const DropDownList = styled("ul")`
-width: 100%;
+export const DropDownList = styled('ul')`
+  width: 100%;
   display: block;
   position: relative;
   height: 150px;
@@ -43,14 +36,14 @@ width: 100%;
   border-radius: 4px;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   will-change: border-color, box-shadow;
-  background-color: ${backgroundColorDark};
+  background-color: ${backgroundColor};
   font-weight: 500;
   &:first-child {
     padding-top: 0.8em;
   }
-`;
+`
 
-export const DropDownListItem = styled("li")`
+export const DropDownListItem = styled('li')`
   list-style: none;
   margin-bottom: 0.8em;
-`;
+`

@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro'
 
 // prettier-ignore
-import { backgroundColorDark, backgroundTextColor, borderColor, downColor, primaryColor, upColor } from '../../../styles'
+import { backgroundColor, backgroundTextColor, borderColor, downColor, primaryColor, subTextColor, upColor } from '../../../styles'
 
 export const InputStyled = styled.div`
   position: relative;
@@ -21,11 +21,11 @@ export const InputComponent = styled.input`
   border-radius: 6px;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   will-change: border-color, box-shadow;
-  background-color: ${backgroundColorDark};
+  background-color: ${backgroundColor};
 
   &:disabled {
-    background: #f1f1f1;
-    color: #6d6d6d;
+    background: ${backgroundTextColor};
+    color: ${subTextColor};
   }
 
   &:hover {

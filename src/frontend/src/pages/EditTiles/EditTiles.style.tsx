@@ -29,11 +29,11 @@ export const EditTilesCanvas = styled.div<{ width: number }>`
 export const EditTilesCanvasTop = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
   height: 50px;
-  background-color: ${backgroundTextColor};
   border: 1px solid ${borderColor};
   box-sizing: border-box;
   cursor: pointer;
   text-align: center;
+  border-radius: 10px 10px 0 0;
 
   > img {
     margin: 14px auto;
@@ -43,11 +43,11 @@ export const EditTilesCanvasTop = styled.div<{ width: number }>`
 export const EditTilesCanvasBottom = styled.div<{ width: number }>`
   width: ${({ width }) => width}px;
   height: 50px;
-  background-color: ${backgroundTextColor};
   border: 1px solid ${borderColor};
   box-sizing: border-box;
   cursor: pointer;
   text-align: center;
+  border-radius: 0 0 10px 10px;
 
   > img {
     margin: 14px auto;
@@ -59,7 +59,6 @@ export const EditTilesCanvasLeft = styled.div<{ height: number }>`
   margin-top: 50px;
   width: 50px;
   height: ${({ height }) => height}px;
-  background-color: ${backgroundTextColor};
   border: 1px solid ${borderColor};
   box-sizing: border-box;
   cursor: pointer;
@@ -67,6 +66,7 @@ export const EditTilesCanvasLeft = styled.div<{ height: number }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  border-radius: 10px 0 0 10px;
 
   > img {
     margin: auto 14px;
@@ -78,7 +78,6 @@ export const EditTilesCanvasRight = styled.div<{ height: number }>`
   margin-top: 50px;
   width: 50px;
   height: ${({ height }) => height}px;
-  background-color: ${backgroundTextColor};
   border: 1px solid ${borderColor};
   box-sizing: border-box;
   cursor: pointer;
@@ -86,6 +85,7 @@ export const EditTilesCanvasRight = styled.div<{ height: number }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  border-radius: 0 10px 10px 0;
 
   > img {
     margin: auto 14px;
@@ -115,7 +115,7 @@ export const EditTilesTile = styled.div<{ width: number; height: number; showGri
     position: absolute;
     width: ${({ width }) => width}px;
     height: ${({ height }) => height}px;
-    background-color: #ffffffa0;
+    background-color: #000000a0;
     opacity: 0;
     text-align: center;
     display: flex;

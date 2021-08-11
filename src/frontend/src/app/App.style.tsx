@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { backgroundColorDark } from 'styles'
+import { backgroundColor } from 'styles'
 
 export const AppStyled = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ export const AppBg = styled.div`
   left: 0;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: ${backgroundColorDark};
+  background-color: ${backgroundColor};
   /* background-image: url('/images/bg.png');
   background-position: center;
   background-repeat: no-repeat;

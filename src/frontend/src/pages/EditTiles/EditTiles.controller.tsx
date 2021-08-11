@@ -32,48 +32,50 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
   const accountPkh = useAccountPkh()
   const [contract, setContract] = useState(undefined)
   const [loadingTiles, setLoadingTiles] = useState(false)
-  const [tiles, setTiles] = useState<Tile[]>([])
+  const [existingTiles, setExistingTiles] = useState<Tile[]>([])
   let { canvasId } = useParams<{ canvasId?: string }>()
 
   const loadStorage = React.useCallback(async () => {
-    if (contract && canvasId) {
+    if (canvasId) {
       setLoadingTiles(true)
-      const storage = await (contract as any).storage()
-      if (storage['market']?.tileIds?.length > 0) {
-        console.log('tileIds', storage['market'].tileIds)
+      if (contract) {
+        const storage = await (contract as any).storage()
+        if (storage['market']?.tileIds?.length > 0) {
+          console.log('tileIds', storage['market'].tileIds)
 
-        const tilesToShow = await Promise.all(
-          storage['market'].tileIds.map(async (tileId: number) => {
-            const tileRaw = await storage.market.tiles.get(tileId.toString())
-            console.log('tileRaw', tileRaw)
+          const existingTilesToShow = await Promise.all(
+            storage['market'].tileIds.map(async (tileId: number) => {
+              const tileRaw = await storage.market.tiles.get(tileId.toString())
+              console.log('tileRaw', tileRaw)
 
-            if (tileRaw) {
-              const tile: Tile = {
-                tileId: tileRaw.tileId.c[0],
-                canvasId: tileRaw.canvasId,
-                x: tileRaw.x.c[0],
-                y: tileRaw.y.c[0],
-                image: tileRaw.image,
-                isOwned: tileRaw.isOwned,
-                owner: tileRaw.owner,
-                onSale: tileRaw.onSale,
-                price: tileRaw.price,
-                deadline: tileRaw.deadline,
-                tileHeight: tileRaw.tileHeight,
-                tileWidth: tileRaw.tileWidth,
-              }
-              return tile
-            } else return undefined
-          }),
-        )
-        //@ts-ignore
-        setTiles(tilesToShow.filter((tile: Tile) => tile && tile.canvasId === canvasId) as Tile[])
+              if (tileRaw) {
+                const tile: Tile = {
+                  tileId: tileRaw.tileId.c[0],
+                  canvasId: tileRaw.canvasId,
+                  x: tileRaw.x.s * tileRaw.x.c[0],
+                  y: tileRaw.y.s * tileRaw.y.c[0],
+                  image: tileRaw.image,
+                  isOwned: tileRaw.isOwned,
+                  owner: tileRaw.owner,
+                  onSale: tileRaw.onSale,
+                  price: tileRaw.price,
+                  deadline: tileRaw.deadline,
+                  tileHeight: tileRaw.tileHeight,
+                  tileWidth: tileRaw.tileWidth,
+                }
+                return tile
+              } else return undefined
+            }),
+          )
+          //@ts-ignore
+          setExistingTiles(existingTilesToShow.filter((tile: Tile) => tile && tile.canvasId === canvasId) as Tile[])
+        }
         setLoadingTiles(false)
       }
       // setExistingTokenIds(storage['market'].tileIds.map((tileIdAsObject: { c: any[] }) => tileIdAsObject.c[0]))
       // setEditTilesAdress(storage.market.admin)
     }
-  }, [contract])
+  }, [canvasId, contract])
 
   useEffect(() => {
     loadStorage()
@@ -108,7 +110,7 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
               loadingTiles={loadingTiles}
               mintCallback={mintCallback}
               connectedUser={(accountPkh as unknown) as string}
-              existingTiles={tiles}
+              existingTiles={existingTiles}
               setMintTransactionPendingCallback={setMintTransactionPendingCallback}
               mintTransactionPending={mintTransactionPending}
               urlCanvasId={canvasId}

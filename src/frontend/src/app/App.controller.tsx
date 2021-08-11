@@ -1,13 +1,10 @@
 import { DAppProvider } from 'dapp/dapp'
 import { APP_NAME } from 'dapp/defaults'
 import { Admin } from 'pages/Admin/Admin.controller'
-import { Buy } from 'pages/Buy/Buy.controller'
 import { Create } from 'pages/Create/Create.controller'
 import { EditTiles } from 'pages/EditTiles/EditTiles.controller'
-import { Help } from 'pages/Help/Help.controller'
 import { Home } from 'pages/Home/Home.controller'
 import { Marketplace } from 'pages/Marketplace/Marketplace.controller'
-import { Sell } from 'pages/Sell/Sell.controller'
 import React from 'react'
 import { useState } from 'react'
 import { positions, Provider, types } from 'react-alert'
@@ -60,20 +57,11 @@ export const App = () => {
                     setMintTransactionPendingCallback={setTransactionPending}
                   />
                 </Route>
-                <Route exact path="/buy">
-                  <Buy transactionPending={transactionPending} setTransactionPendingCallback={setTransactionPending} />
-                </Route>
-                <Route exact path="/sell">
-                  <Sell transactionPending={transactionPending} setTransactionPendingCallback={setTransactionPending} />
-                </Route>
                 <Route exact path="/marketplace">
                   <Marketplace
                     transactionPending={transactionPending}
                     setTransactionPendingCallback={setTransactionPending}
                   />
-                </Route>
-                <Route exact path="/help">
-                  <Help />
                 </Route>
               </Switch>
             </AppContainer>
