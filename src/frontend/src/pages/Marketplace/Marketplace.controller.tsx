@@ -4,6 +4,7 @@ import { Message, Page } from 'styles'
 import { TezosToolkit } from '@taquito/taquito'
 import { MarketplaceView } from './Marketplace.view'
 import { Tile } from 'pages/EditTiles/EditTiles.view'
+import { Loader } from 'app/App.components/Loader/Loader.view'
 
 type MarketplaceProps = {
   setTransactionPendingCallback: (b: boolean) => void
@@ -72,7 +73,9 @@ export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
       ) : (
         <div>
           {loading ? (
-            <Message>Loading tiles... Please wait up to 5 min (this is not optimized yet)).</Message>
+            <Message>
+              <Loader />
+            </Message>
           ) : (
             <Message>No tile available</Message>
           )}
