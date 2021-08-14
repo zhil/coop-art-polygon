@@ -1,25 +1,19 @@
 // prettier-ignore
 import { useAccountPkh, useOnBlock, useProvider } from "dapp/dapp";
-import { ADMIN, COOPART_ADDRESS } from 'dapp/defaults'
+import { ADMIN, COOPART_ADDRESS, SUBGRAPH_URL } from 'dapp/defaults'
 import { ethers } from 'ethers'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Message, Page } from 'styles'
+import { createClient } from 'urql'
+import axios from 'axios'
 
 import { EditTilesView, Tile } from './EditTiles.view'
 import Token from '../../artifacts/contracts/NFT.sol/MyNFT.json'
 
 export type Mint = {
-  tileId: number
-  canvasId: string
-  x: number
-  y: number
-  image: string
-  owner?: string
-  deadline: string
-  tileWidth: number
-  tileHeight: number
+  tokenUri: string
 }
 
 type EditTilesProps = {
@@ -29,7 +23,6 @@ type EditTilesProps = {
 
 export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPending }: EditTilesProps) => {
   const accountPkh = useAccountPkh()
-  const [contract, setContract] = useState(undefined)
   const [loadingTiles, setLoadingTiles] = useState(false)
   const [existingTiles, setExistingTiles] = useState<Tile[]>([])
   let { canvasId } = useParams<{ canvasId?: string }>()
@@ -37,44 +30,49 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
   const loadStorage = React.useCallback(async () => {
     if (canvasId) {
       setLoadingTiles(true)
-      if (contract) {
-        const storage = await (contract as any).storage()
-        if (storage['market']?.tileIds?.length > 0) {
-          console.log('tileIds', storage['market'].tileIds)
 
-          const existingTilesToShow = await Promise.all(
-            storage['market'].tileIds.map(async (tileId: number) => {
-              const tileRaw = await storage.market.tiles.get(tileId.toString())
-              console.log('tileRaw', tileRaw)
-
-              if (tileRaw) {
-                const tile: Tile = {
-                  tileId: tileRaw.tileId.c[0],
-                  canvasId: tileRaw.canvasId,
-                  x: tileRaw.x.s * tileRaw.x.c[0],
-                  y: tileRaw.y.s * tileRaw.y.c[0],
-                  image: tileRaw.image,
-                  isOwned: tileRaw.isOwned,
-                  owner: tileRaw.owner,
-                  onSale: tileRaw.onSale,
-                  price: tileRaw.price,
-                  deadline: tileRaw.deadline,
-                  tileHeight: tileRaw.tileHeight,
-                  tileWidth: tileRaw.tileWidth,
-                }
-                return tile
-              } else return undefined
-            }),
-          )
-          //@ts-ignore
-          setExistingTiles(existingTilesToShow.filter((tile: Tile) => tile && tile.canvasId === canvasId) as Tile[])
+      const tokensQuery = `
+        query {
+          tokens(first: 100) {
+            id
+            uri
+          }
         }
-        setLoadingTiles(false)
+      `
+      const client = createClient({
+        url: SUBGRAPH_URL,
+      })
+      const data = await client.query(tokensQuery).toPromise()
+      console.log(data)
+
+      if (data.data && data.data.tokens && data.data.tokens.length > 0) {
+        const existingTilesToShow = await Promise.all(
+          data.data.tokens.map(async (token: { id: string; uri: string }) => {
+            const tokenData = await axios.get(`https://ipfs.infura.io/ipfs/${token.uri}`)
+
+            console.log(`https://ipfs.infura.io/ipfs/${tokenData.data.image.replace('ipfs://', '')}`)
+
+            if (tokenData.data) {
+              const tile: Tile = {
+                tileId: tokenData.data.tileId,
+                canvasId: tokenData.data.canvasId,
+                x: tokenData.data.x,
+                y: tokenData.data.y,
+                image: `https://ipfs.infura.io/ipfs/${tokenData.data.image.replace('ipfs://', '')}`,
+                deadline: tokenData.data.deadline,
+                tileHeight: tokenData.data.tileHeight,
+                tileWidth: tokenData.data.tileWidth,
+              }
+              return tile
+            } else return undefined
+          }),
+        )
+        //@ts-ignore
+        setExistingTiles(existingTilesToShow.filter((tile: Tile) => tile && tile.canvasId === canvasId) as Tile[])
       }
-      // setExistingTokenIds(storage['market'].tileIds.map((tileIdAsObject: { c: any[] }) => tileIdAsObject.c[0]))
-      // setEditTilesAdress(storage.market.admin)
+      setLoadingTiles(false)
     }
-  }, [canvasId, contract])
+  }, [canvasId])
 
   useEffect(() => {
     loadStorage()
@@ -96,14 +94,14 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
   console.log('provider ', provider)
 
   const mintCallback = React.useCallback(
-    async ({ tileId, canvasId, x, y, image, owner, deadline, tileWidth, tileHeight }: Mint) => {
+    async ({ tokenUri }: Mint) => {
       //@ts-ignore
       const signer = provider.getSigner()
       const account = await signer.getAddress()
       const contract = new ethers.Contract(COOPART_ADDRESS, Token.abi, provider)
       const contractWithSigner = contract.connect(signer)
       // const tx = await contract.mint(accountPkh, nft.cid).wait();
-      return contractWithSigner.mint(accountPkh, 'QmXUSSgzCQUNezLpo9Xn8TSmgkPqL3SgT8RpfyyNjGgimN/turtle.json')
+      return contractWithSigner.mint(accountPkh, tokenUri)
     },
     [provider, accountPkh],
   )

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { Mint } from './EditTiles.controller'
 import dayjs from 'dayjs'
-import { NFTStorage, toGatewayURL } from 'nft.storage'
 
 // prettier-ignore
 import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, TileVoting, TileVotingButtons, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
@@ -32,10 +31,6 @@ export type Tile = {
   x: number
   y: number
   image: string
-  isOwned?: boolean
-  owner?: string
-  onSale?: boolean
-  price?: number
   deadline: string
   tileWidth: number
   tileHeight: number
@@ -114,16 +109,24 @@ export const EditTilesView = ({
 
       // Upload to IPFS
       const uploadedImage = await client.add(file)
+
       const json = {
         name: 'Coopart Tile',
         description: 'Coopart Tile',
         image: `ipfs://${uploadedImage.path}`,
+        tileId,
+        canvasId: canvasId as string,
+        x,
+        y,
+        deadline,
+        tileWidth,
+        tileHeight,
       }
       const uploadedJson = await client.add(Buffer.from(JSON.stringify(json)))
 
       const image = `https://ipfs.infura.io/ipfs/${uploadedImage.path}`
 
-      console.log(uploadedJson)
+      console.log('tokenUri', `https://ipfs.infura.io/ipfs/${uploadedJson.path}`)
 
       // const metadata = await client.store({
       //   name: 'Coopart Tile',
@@ -138,7 +141,6 @@ export const EditTilesView = ({
         x,
         y,
         image,
-        owner: connectedUser,
         deadline,
         tileWidth,
         tileHeight,
@@ -152,7 +154,7 @@ export const EditTilesView = ({
         alert.info('Cannot mint a new tile while the previous one is not minted...', { timeout: 10000 })
       } else {
         console.log(tile)
-        mintCallback(tile)
+        mintCallback({ tokenUri: uploadedJson.path })
           .then((e) => {
             setMintTransactionPendingCallback(true)
             alert.info('Minting new tile...')
@@ -197,7 +199,7 @@ export const EditTilesView = ({
           value={tileWidth}
           placeholder="width"
           type="text"
-          onChange={(e) => setTileWidth(e.target.value || 1)}
+          onChange={(e) => setTileWidth(parseInt(e.target.value) || 1)}
           onBlur={() => {}}
           disabled={lockedInputs}
         />
@@ -206,7 +208,7 @@ export const EditTilesView = ({
           value={tileHeight}
           placeholder="height"
           type="text"
-          onChange={(e) => setTileHeight(e.target.value || 1)}
+          onChange={(e) => setTileHeight(parseInt(e.target.value) || 1)}
           onBlur={() => {}}
           disabled={lockedInputs}
         />
