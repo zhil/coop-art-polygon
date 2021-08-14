@@ -35,6 +35,7 @@ export const HeaderButton = styled.div`
   text-align: center;
   font-weight: bold;
   margin-top: 10px;
+  height: 32px;
 `
 
 export const HeaderAccount = styled.div`

@@ -1,0 +1,29 @@
+specVersion: 0.0.2
+description: Generic ERC721 Subgraph (Transfers, Metadata)
+repository: https://github.com/schmidsi/generic-erc721-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: MyNFT # Change me
+    network: mumbai
+    source:
+      address: '0xaa71521B33f97CF7466519025BC6d60F55B9dD44' # Change me
+      abi: ERC721
+      startBlock: 17566210 # Change me
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Owner
+        - Contract
+        - Transfer
+      abis:
+        - name: ERC721
+          file: ./abis/ERC721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

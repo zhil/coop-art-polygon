@@ -5,11 +5,16 @@ import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
 import { Mint } from './EditTiles.controller'
 import dayjs from 'dayjs'
+import { NFTStorage, toGatewayURL } from 'nft.storage'
 
 // prettier-ignore
 import { EditTilesCanvas, EditTilesCanvasBottom, EditTilesCanvasLeft, EditTilesCanvasMiddle, EditTilesCanvasRight, EditTilesCanvasTop, EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesTile, TileVoting, TileVotingButtons, UploaderFileSelector, UploaderLabel } from "./EditTiles.style";
 
 const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
+// const client = new NFTStorage({
+//   token:
+//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENiNEIyQjM3Qjg5NTM4NzMxZjA1M0JFYjM2MjI4ZjM3YWNjYzkwODkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyODkwMTM2NDYxMiwibmFtZSI6ImNvb3BhcnQifQ.zjvM0aqhPvH6FmBMOdAP4XAYpdJOvIS3hDjAfOqz8tA',
+// })
 
 type EditTilesViewProps = {
   loadingTiles: boolean
@@ -101,15 +106,31 @@ export const EditTilesView = ({
     }
   }, [tiles])
 
-  async function handleUpload(file: any, x: number, y: number) {
+  async function handleUpload(file: File, x: number, y: number) {
     const tileId = Math.floor(Math.random() * 1000000) //TODO: Implement better tileId
 
     try {
       setIsUploading(true)
 
       // Upload to IPFS
-      const added = await client.add(file)
-      const image = `https://ipfs.infura.io/ipfs/${added.path}`
+      const uploadedImage = await client.add(file)
+      const json = {
+        name: 'Coopart Tile',
+        description: 'Coopart Tile',
+        image: `ipfs://${uploadedImage.path}`,
+      }
+      const uploadedJson = await client.add(Buffer.from(JSON.stringify(json)))
+
+      const image = `https://ipfs.infura.io/ipfs/${uploadedImage.path}`
+
+      console.log(uploadedJson)
+
+      // const metadata = await client.store({
+      //   name: 'Coopart Tile',
+      //   description: 'Coopart Tile',
+      //   image: file,
+      // })
+      // console.log('image-url', toGatewayURL(metadata.data.image.href, { gateway: 'https://ipfs.infura.io/ipfs' }))
 
       const tile: Tile = {
         tileId,
@@ -128,14 +149,15 @@ export const EditTilesView = ({
 
       // Mint token
       if (mintTransactionPending) {
-        alert.info('Cannot mint a new land while the previous one is not minted...', { timeout: 10000 })
+        alert.info('Cannot mint a new tile while the previous one is not minted...', { timeout: 10000 })
       } else {
         console.log(tile)
         mintCallback(tile)
           .then((e) => {
             setMintTransactionPendingCallback(true)
             alert.info('Minting new tile...')
-            e.confirmation().then((e: any) => {
+            e.wait().then((e: any) => {
+              console.log('New tile minted')
               alert.success('New tile minted', {
                 onOpen: () => {
                   setMintTransactionPendingCallback(false)

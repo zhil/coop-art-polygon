@@ -1,12 +1,14 @@
 // prettier-ignore
-import { useAccountPkh, useOnBlock, useReady, useTezos, useWallet } from "dapp/dapp";
+import { useAccountPkh, useOnBlock, useProvider } from "dapp/dapp";
 import { ADMIN, COOPART_ADDRESS } from 'dapp/defaults'
+import { ethers } from 'ethers'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Message, Page } from 'styles'
 
 import { EditTilesView, Tile } from './EditTiles.view'
+import Token from '../../artifacts/contracts/NFT.sol/MyNFT.json'
 
 export type Mint = {
   tileId: number
@@ -26,9 +28,6 @@ type EditTilesProps = {
 }
 
 export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPending }: EditTilesProps) => {
-  const wallet = useWallet()
-  const ready = useReady()
-  const tezos = useTezos()
   const accountPkh = useAccountPkh()
   const [contract, setContract] = useState(undefined)
   const [loadingTiles, setLoadingTiles] = useState(false)
@@ -81,46 +80,48 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
     loadStorage()
   }, [loadStorage])
 
-  useEffect(() => {
-    ;(async () => {
-      if (tezos) {
-        const ctr = await (tezos as any).wallet.at(COOPART_ADDRESS)
-        setContract(ctr)
-      }
-    })()
-  }, [tezos, mintTransactionPending])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     if (tezos) {
+  //       const ctr = await (tezos as any).wallet.at(COOPART_ADDRESS)
+  //       setContract(ctr)
+  //     }
+  //   })()
+  // }, [tezos, mintTransactionPending])
 
-  useOnBlock(tezos, loadStorage)
+  // useOnBlock(tezos, loadStorage)
+
+  const provider = useProvider()
+
+  console.log('provider ', provider)
 
   const mintCallback = React.useCallback(
-    ({ tileId, canvasId, x, y, image, owner, deadline, tileWidth, tileHeight }: Mint) => {
-      return (contract as any).methods
-        .mint(canvasId, deadline, image, ADMIN, owner, tileHeight, tileId, tileWidth, x, y)
-        .send()
+    async ({ tileId, canvasId, x, y, image, owner, deadline, tileWidth, tileHeight }: Mint) => {
+      //@ts-ignore
+      const signer = provider.getSigner()
+      const account = await signer.getAddress()
+      const contract = new ethers.Contract(COOPART_ADDRESS, Token.abi, provider)
+      const contractWithSigner = contract.connect(signer)
+      // const tx = await contract.mint(accountPkh, nft.cid).wait();
+      return contractWithSigner.mint(accountPkh, 'QmXUSSgzCQUNezLpo9Xn8TSmgkPqL3SgT8RpfyyNjGgimN/turtle.json')
     },
-    [contract],
+    [provider, accountPkh],
   )
 
   return (
     <Page>
-      {wallet ? (
-        <>
-          {ready ? (
-            <EditTilesView
-              loadingTiles={loadingTiles}
-              mintCallback={mintCallback}
-              connectedUser={(accountPkh as unknown) as string}
-              existingTiles={existingTiles}
-              setMintTransactionPendingCallback={setMintTransactionPendingCallback}
-              mintTransactionPending={mintTransactionPending}
-              urlCanvasId={canvasId}
-            />
-          ) : (
-            <Message>Please connect your wallet</Message>
-          )}
-        </>
+      {accountPkh ? (
+        <EditTilesView
+          loadingTiles={loadingTiles}
+          mintCallback={mintCallback}
+          connectedUser={(accountPkh as unknown) as string}
+          existingTiles={existingTiles}
+          setMintTransactionPendingCallback={setMintTransactionPendingCallback}
+          mintTransactionPending={mintTransactionPending}
+          urlCanvasId={canvasId}
+        />
       ) : (
-        <Message>Please install the Temple Wallet Chrome Extension.</Message>
+        <Message>Please connect your wallet</Message>
       )}
     </Page>
   )
