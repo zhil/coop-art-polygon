@@ -35,7 +35,7 @@ export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
       if (data.data && data.data.tokens && data.data.tokens.length > 0) {
         const tilesToShow = await Promise.all(
           data.data.tokens.map(async (token: { id: string; uri: string }) => {
-            const tokenData = await axios.get(`https://ipfs.infura.io/ipfs/${token.uri}`)
+            const tokenData = await axios.get(`https://ipfs.infura.io/ipfs/${token.uri.replace('ipfs://', '')}`)
 
             console.log(`https://ipfs.infura.io/ipfs/${tokenData.data.image.replace('ipfs://', '')}`)
 

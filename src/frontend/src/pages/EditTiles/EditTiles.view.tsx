@@ -122,11 +122,14 @@ export const EditTilesView = ({
         tileWidth,
         tileHeight,
       }
+
       const uploadedJson = await client.add(Buffer.from(JSON.stringify(json)))
 
       const image = `https://ipfs.infura.io/ipfs/${uploadedImage.path}`
 
-      console.log('tokenUri', `https://ipfs.infura.io/ipfs/${uploadedJson.path}`)
+      const tokenUri = `ipfs://${uploadedJson.path}`
+
+      console.log('tokenUri', tokenUri)
 
       // const metadata = await client.store({
       //   name: 'Coopart Tile',
@@ -150,30 +153,25 @@ export const EditTilesView = ({
       setTiles([...newTiles.concat(tile), ...existingTiles])
 
       // Mint token
-      if (mintTransactionPending) {
-        alert.info('Cannot mint a new tile while the previous one is not minted...', { timeout: 10000 })
-      } else {
-        console.log(tile)
-        mintCallback({ tokenUri: uploadedJson.path })
-          .then((e) => {
-            setMintTransactionPendingCallback(true)
-            alert.info('Minting new tile...')
-            e.wait().then((e: any) => {
-              console.log('New tile minted')
-              alert.success('New tile minted', {
-                onOpen: () => {
-                  setMintTransactionPendingCallback(false)
-                },
-              })
-              return e
+      mintCallback({ tokenUri })
+        .then((e) => {
+          setMintTransactionPendingCallback(true)
+          alert.info('Minting new tile...')
+          e.wait().then((e: any) => {
+            console.log('New tile minted')
+            alert.success('New tile minted', {
+              onOpen: () => {
+                setMintTransactionPendingCallback(false)
+              },
             })
             return e
           })
-          .catch((e: any) => {
-            alert.show(e.message)
-            console.error(e)
-          })
-      }
+          return e
+        })
+        .catch((e: any) => {
+          alert.show(e.message)
+          console.error(e)
+        })
 
       setIsUploading(false)
     } catch (error) {
