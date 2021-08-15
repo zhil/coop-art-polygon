@@ -17,7 +17,7 @@ describe('Token', function() {
 
   beforeEach(async () => {
     [owner, addr1, addr2, addrs] = await ethers.getSigners();
-    NFTContractFactory = await ethers.getContractFactory("MyNFT");
+    NFTContractFactory = await ethers.getContractFactory("CoopartNFT");
     NFTContract = await NFTContractFactory.deploy();
     await NFTContract.deployed();
 

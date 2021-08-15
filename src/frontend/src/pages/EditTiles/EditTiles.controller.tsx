@@ -10,10 +10,16 @@ import { createClient } from 'urql'
 import axios from 'axios'
 
 import { EditTilesView, Tile } from './EditTiles.view'
-import Token from '../../artifacts/contracts/NFT.sol/MyNFT.json'
+import Token from '../../artifacts/contracts/CoopartNFT.sol/CoopartNFT.json'
 
 export type Mint = {
   tokenUri: string
+  canvasId: string
+}
+
+export type Vote = {
+  tileId: number
+  up: boolean
 }
 
 type EditTilesProps = {
@@ -94,16 +100,26 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
   console.log('provider ', provider)
 
   const mintCallback = React.useCallback(
-    async ({ tokenUri }: Mint) => {
+    async ({ tokenUri, canvasId }: Mint) => {
       //@ts-ignore
       const signer = provider.getSigner()
-      const account = await signer.getAddress()
       const contract = new ethers.Contract(COOPART_ADDRESS, Token.abi, provider)
       const contractWithSigner = contract.connect(signer)
-      // const tx = await contract.mint(accountPkh, nft.cid).wait();
-      return contractWithSigner.mint(accountPkh, tokenUri)
+      return contractWithSigner.mint(accountPkh, tokenUri, canvasId)
     },
     [provider, accountPkh],
+  )
+
+  const voteCallback = React.useCallback(
+    async ({ tileId, up }: Vote) => {
+      //@ts-ignore
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(COOPART_ADDRESS, Token.abi, provider)
+      const contractWithSigner = contract.connect(signer)
+      if (up) return contractWithSigner.upvote(tileId)
+      return contractWithSigner.downvote(tileId)
+    },
+    [provider],
   )
 
   return (
@@ -112,6 +128,7 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
         <EditTilesView
           loadingTiles={loadingTiles}
           mintCallback={mintCallback}
+          voteCallback={voteCallback}
           connectedUser={(accountPkh as unknown) as string}
           existingTiles={existingTiles}
           setMintTransactionPendingCallback={setMintTransactionPendingCallback}

@@ -3,7 +3,7 @@ import { Input } from 'app/App.components/Input/Input.controller'
 import { create } from 'ipfs-http-client'
 import { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert'
-import { Mint } from './EditTiles.controller'
+import { Mint, Vote } from './EditTiles.controller'
 import dayjs from 'dayjs'
 
 // prettier-ignore
@@ -18,6 +18,7 @@ const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
 type EditTilesViewProps = {
   loadingTiles: boolean
   mintCallback: (mintProps: Mint) => Promise<any>
+  voteCallback: (voteProps: Vote) => Promise<any>
   setMintTransactionPendingCallback: (b: boolean) => void
   connectedUser: string
   mintTransactionPending: boolean
@@ -39,6 +40,7 @@ export type Tile = {
 export const EditTilesView = ({
   loadingTiles,
   mintCallback,
+  voteCallback,
   connectedUser,
   existingTiles,
   setMintTransactionPendingCallback,
@@ -101,6 +103,28 @@ export const EditTilesView = ({
     }
   }, [tiles])
 
+  async function handleVote(tileId: number, up: boolean) {
+    voteCallback({ tileId, up })
+      .then((e) => {
+        setMintTransactionPendingCallback(true)
+        alert.info('Voting on tile...')
+        e.wait().then((e: any) => {
+          console.log('Vote casted')
+          alert.success('Vote casted', {
+            onOpen: () => {
+              setMintTransactionPendingCallback(false)
+            },
+          })
+          return e
+        })
+        return e
+      })
+      .catch((e: any) => {
+        alert.show(e.message)
+        console.error(e)
+      })
+  }
+
   async function handleUpload(file: File, x: number, y: number) {
     const tileId = Math.floor(Math.random() * 1000000) //TODO: Implement better tileId
 
@@ -153,7 +177,7 @@ export const EditTilesView = ({
       setTiles([...newTiles.concat(tile), ...existingTiles])
 
       // Mint token
-      mintCallback({ tokenUri })
+      mintCallback({ tokenUri, canvasId: canvasId as string })
         .then((e) => {
           setMintTransactionPendingCallback(true)
           alert.info('Minting new tile...')
@@ -280,12 +304,12 @@ export const EditTilesView = ({
                                   <img
                                     alt="check"
                                     src="/icons/check.svg"
-                                    onClick={() => alert.info('This feature is coming soon in phase II.')}
+                                    onClick={() => handleVote(tilesThere.map((tile) => tile.tileId)[0], true)}
                                   />
                                   <img
                                     alt="cross"
                                     src="/icons/cross.svg"
-                                    onClick={() => alert.info('This feature is coming soon in phase II.')}
+                                    onClick={() => handleVote(tilesThere.map((tile) => tile.tileId)[0], false)}
                                   />
                                 </TileVotingButtons>
                               </TileVoting>

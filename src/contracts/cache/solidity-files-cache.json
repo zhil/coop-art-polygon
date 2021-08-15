@@ -1,45 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/lol/apps/fun/coopart/src/contracts/contracts/NFT.sol": {
-      "lastModificationDate": 1628811336821,
-      "contentHash": "1616631fbce092c40f01364044450fc0",
-      "sourceName": "contracts/NFT.sol",
-      "solcConfig": {
-        "version": "0.8.0",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
-        "@openzeppelin/contracts/utils/Counters.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "MyNFT"
-      ]
-    },
     "/Users/lol/apps/fun/coopart/src/contracts/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
       "lastModificationDate": 1628811564681,
       "contentHash": "68557a95c05dac5415ccbeb0a389ccaf",
@@ -501,6 +462,45 @@
       ],
       "artifacts": [
         "IERC721Enumerable"
+      ]
+    },
+    "/Users/lol/apps/fun/coopart/src/contracts/contracts/CoopartNFT.sol": {
+      "lastModificationDate": 1629058784497,
+      "contentHash": "36e5642bf1a68f2a365e2aa942bfc85a",
+      "sourceName": "contracts/CoopartNFT.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+        "@openzeppelin/contracts/utils/Counters.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "CoopartNFT"
       ]
     }
   }

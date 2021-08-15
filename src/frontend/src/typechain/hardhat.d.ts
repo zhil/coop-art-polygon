@@ -49,9 +49,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "MyNFT",
+      name: "CoopartNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyNFT__factory>;
+    ): Promise<Contracts.CoopartNFT__factory>;
 
     // default types
     getContractFactory(

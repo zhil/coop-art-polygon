@@ -5,10 +5,10 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: MyNFT # Change me
+    name: CoopartNFT # Change me
     network: mumbai
     source:
-      address: '0xaa71521B33f97CF7466519025BC6d60F55B9dD44' # Change me
+      address: '0xC5745209053E2b11122451bDaf8AeE2B4fF586d3' # Change me
       abi: ERC721
       startBlock: 17566210 # Change me
     mapping:

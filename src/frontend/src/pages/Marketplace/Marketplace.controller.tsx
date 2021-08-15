@@ -1,20 +1,30 @@
 import { COOPART_ADDRESS, NETWORK, SUBGRAPH_URL } from 'dapp/defaults'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Message, Page } from 'styles'
 import { MarketplaceView } from './Marketplace.view'
 import { Tile } from 'pages/EditTiles/EditTiles.view'
 import { Loader } from 'app/App.components/Loader/Loader.view'
 import { createClient } from 'urql'
 import axios from 'axios'
+import { ethers } from 'ethers'
+
+import Token from '../../artifacts/contracts/CoopartNFT.sol/CoopartNFT.json'
+import { useAccountPkh, useProvider } from 'dapp/dapp'
 
 type MarketplaceProps = {
   setTransactionPendingCallback: (b: boolean) => void
   transactionPending: boolean
 }
 
+export type Buy = {
+  canvasId: string
+}
+
 export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
   const [tiles, setTiles] = useState<Tile[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const accountPkh = useAccountPkh()
+  const provider = useProvider()
 
   useEffect(() => {
     ;(async () => {
@@ -61,12 +71,21 @@ export const Marketplace = ({ transactionPending }: MarketplaceProps) => {
     })()
   }, [])
 
-  // useOnBlock(tezos, loadStorage)
+  const buyCallback = useCallback(
+    async ({ canvasId }: Buy) => {
+      //@ts-ignore
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(COOPART_ADDRESS, Token.abi, provider)
+      const contractWithSigner = contract.connect(signer)
+      return contractWithSigner.buy(canvasId, { value: ethers.utils.parseEther('1') })
+    },
+    [provider, accountPkh],
+  )
 
   return (
     <Page>
       {tiles && tiles.length > 0 ? (
-        <MarketplaceView tiles={tiles} />
+        <MarketplaceView tiles={tiles} buyCallback={buyCallback} />
       ) : (
         <div>
           {loading ? (

@@ -79,6 +79,7 @@ export const MarketplaceCanvasTileContribute = styled.div`
   text-align: center;
   line-height: 32px;
   margin-top: 10px;
+  cursor: pointer;
 `
 
 export const MarketplaceCanvasTileSold = styled.div`

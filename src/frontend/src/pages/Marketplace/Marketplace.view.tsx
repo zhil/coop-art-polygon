@@ -1,17 +1,39 @@
 import { Timer } from 'app/App.components/Timer/Timer.controller'
 import { Tile } from 'pages/EditTiles/EditTiles.view'
+import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
+import { Buy } from './Marketplace.controller'
 
 // prettier-ignore
 import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceCanvasTileSold, MarketplaceContainer, MarketplaceStyled } from './Marketplace.style'
 
 type MarketplaceViewProps = {
   tiles: Tile[]
+  buyCallback: (buyProps: Buy) => Promise<any>
 }
 
-export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
+export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) => {
+  const alert = useAlert()
+
   const canvasIds = [...new Set(tiles.map((tile) => tile.canvasId))]
   console.log(canvasIds)
+
+  async function handleBuy(canvasId: string) {
+    buyCallback({ canvasId })
+      .then((e) => {
+        alert.info('Voting on tile...')
+        e.wait().then((e: any) => {
+          console.log('Vote casted')
+          alert.success('Vote casted')
+          return e
+        })
+        return e
+      })
+      .catch((e: any) => {
+        alert.show(e.message)
+        console.error(e)
+      })
+  }
 
   return (
     <MarketplaceStyled>
@@ -105,7 +127,9 @@ export const MarketplaceView = ({ tiles }: MarketplaceViewProps) => {
                     </svg>
                     <div>Finished</div>
                   </MarketplaceCanvasTileExpiry>
-                  <MarketplaceCanvasTileSold>Sold for 1 XTZ</MarketplaceCanvasTileSold>
+                  <MarketplaceCanvasTileContribute onClick={() => handleBuy(canvasId)}>
+                    Buy for 1 MATIC
+                  </MarketplaceCanvasTileContribute>
                 </>
               )}
             </MarketplaceCanvas>

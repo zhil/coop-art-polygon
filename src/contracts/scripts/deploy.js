@@ -10,7 +10,7 @@ async function main() {
     deployer.address
   );
 
-  const NFTContractFactory = await hre.ethers.getContractFactory("MyNFT");
+  const NFTContractFactory = await hre.ethers.getContractFactory("CoopartNFT");
   const NFTContract = await NFTContractFactory.deploy();
 
   await NFTContract.deployed();

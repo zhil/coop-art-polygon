@@ -4,8 +4,6 @@ import React from 'react'
 import { useAlert } from 'react-alert'
 import Web3Modal from 'web3modal'
 
-import Token from '../artifacts/contracts/NFT.sol/MyNFT.json'
-
 export const [DAppProvider, useProvider, useAccountPkh, useConnect] = constate(
   useDApp,
   (v) => v.provider,
