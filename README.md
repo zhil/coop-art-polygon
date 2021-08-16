@@ -95,25 +95,25 @@ Hi, I'm Aymeric, I first got the idea for Coopart from looking at the 69 million
 
 Let's try it out. Go to coop.art and and connect your Metamask wallet. Make sure your wallet is connected to the _Matic Mumbai Testnet_ as I've deployed the smart contract on the Polygon Testnet.
 
-Once you are connected, your eth address should then appear in the top right corner.
+Once you are connected, your eth address should then appear on the top right corner.
 
-You are now ready to create a new canvas or contribute to the existing canvases. 
+You are now ready to create a new canvas or contribute to existing canvases. 
 
 Let's start by clicking _Create New Canvas_. You can see an empty tile and a few options. First, choose a tile size. Note that all tiles in a canvas will have the same size, even for other contributors. Let's choose 130 pixels by 340 pixels. You can also select the time period for other artists to contribute to the canvas. Let's choose a deadline 3 days from now. After that, the canvas will automatically lock and be put on sale, meaning that no more contribution will be possible.
 
 Now hover your mouse over the tile to see its coordinates and an upload button. You can click the arrows to expand the canvas on the right side, left side, top side or bottom side. There is no limit to the canvas size, this could technically scale to millions of tiles. Let's upload a first tile.
-I am using **IPFS** with _Infura_ to store the NFT images and token metadata, so it is fully decentralized and tile owners can be reassured that their art is stored safely forever.
+I am using **IPFS** with the _Infura_ gateway to store the NFT images and token metadata, so it is fully decentralized and tile owners can be reassured that their art is safely stored forever.
 
-Once the image is uploaded, it appears in the tile you chose. Then a transaction to mint the tile is automatically started. A notification in the top right corner tells you that the transaction has been sent. Wait a few seconds, and another notification will tell you that the tile has been minted. You can check out PolygonScan to confirm that the transaction is indeed successful. This canvas is now officially started. You can add more tiles yourself or wait for others to contribute. 
+Once the image is uploaded, it appears in the tile you chose. A transaction to mint the tile is automatically started. Accept it to mint the tile as an ERC721 toke in the smart contract. You can check out PolygonScan to confirm that the transaction is indeed successful. This canvas is now officially started. You can add more tiles yourself or wait for others to contribute. 
 
-Let's now go to the marketplace. Here you can see on-going canvases that still have time left in their contribution period and canvases that have expired and have automatically been put on sale. You can see the canvas we just created with one tile. Let's say I'm another artist that want to contribute to this canvas. I can click "Contribute" and the tile editor will open and fetch the tiles from the smart contract. Let me now add two new tiles to this canvas.
+Let's now go to the marketplace. Here you can see ongoing canvases that still have time left in their contribution period and canvases that have expired and have automatically been put on sale. You can see the canvas we just created with one tile. Let's say I'm another artist that want to contribute to this canvas. I can click "Contribute" and the tile editor will open and fetch the tiles from the smart contract. Note that I created a custom subgraph to fetch the data with GraphQL. Let me now add two new tiles to this canvas.
 
 [...]
 
 I am now done contributing. If I reload the marketplace, I can see that the canvas does display the new tiles.
 
-Let's contribute to another canvas. Here I can see tiles about typical rage comics. However there is a tile that does not seem to fit the theme of the canvas. In that case, I can vote on tiles to be removed. Each canvas is its own DAO and self-governs. You can click upvote or downvote on each tile, and those with more downvotes than upvotes will be removed automatically. For the sake of tranparency, these buttons do yet do anything. Coopart is such a big project that I have not been able to implement the DAO system just yet.
+Let's contribute to another canvas. Here I can see tiles are about typical rage comics. However there is a tile that does not seem to fit the theme of the canvas. In that case, I can vote this tile to be removed. Each canvas is its own DAO and self-governs. You can click upvote or downvote on each tile, and those with more downvotes than upvotes will be removed automatically.
 
-Now, once the contribution period of a canvas expires, no one can contribute to it anymore, and it is automatically put on sale in the marketplace. For now, I've only implemented a simple fixed price sale at 1 MATIC as a proof of concept. When a canvas is purchased, all the tile creators (except those that were voted out) are paid according to the number of tiles they contributed. For instance, if a canvas has 10 tiles and is sold for 1 MATIC, each tile creator will receive 0.1 MATIC. If someone contributed 2 tiles to that canvas, he would receive 0.2 MATIC.
+Now, once the contribution period of a canvas expires, no one can contribute to it anymore, and it is automatically put on sale in the marketplace. For now, I've only implemented a simple fixed price sale at 1 MATIC as a proof of concept, but I plan on developping a more complex auction system soon. When a canvas is purchased, all the tile creators (except those that were voted out) are paid according to the number of tiles they contributed. For instance, if a canvas has 10 tiles and is sold for 1 MATIC, each tile creator will receive 0.1 MATIC. If someone contributed 2 tiles to that canvas, he would receive 0.2 MATIC.
 
-Coopart is a revolutionary way of building NFT art cooperatively. Both tile-based canvas and layer-based canvas will lead to exceptional artistic pieces from thousands of artists working together and maybe worth millions. Thanks for wtching.
+Coopart is a revolutionary way of building NFT art cooperatively. Tile-based art will lead to new and exceptional pieces from thousands of artists working together, and maybe one day worth millions. Thanks for watching.

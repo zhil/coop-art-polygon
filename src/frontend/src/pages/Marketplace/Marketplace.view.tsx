@@ -1,4 +1,5 @@
 import { Timer } from 'app/App.components/Timer/Timer.controller'
+import dayjs from 'dayjs'
 import { Tile } from 'pages/EditTiles/EditTiles.view'
 import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
@@ -21,10 +22,10 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
   async function handleBuy(canvasId: string) {
     buyCallback({ canvasId })
       .then((e) => {
-        alert.info('Voting on tile...')
+        alert.info('Buying canvas...')
         e.wait().then((e: any) => {
-          console.log('Vote casted')
-          alert.success('Vote casted')
+          console.log('Canvas purchased')
+          alert.success('Canvas purchased')
           return e
         })
         return e
@@ -107,7 +108,7 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
                 <div>{`${tiles.filter((tile) => tile.canvasId === canvasId).length} tiles`}</div>
               </MarketplaceCanvasTileCount>
 
-              {new Date(deadline).getTime() - new Date().getTime() > 0 ? (
+              {dayjs(deadline).add(5, 'days').unix() - dayjs().unix() > 0 ? (
                 <>
                   <MarketplaceCanvasTileExpiry>
                     <svg>

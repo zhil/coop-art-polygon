@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import * as PropTypes from 'prop-types'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -21,11 +22,11 @@ export const Timer = ({ deadline }: TimerProps) => {
     seconds: 0,
   })
 
-  const countDown = new Date(deadline).getTime()
+  const countDown = dayjs(deadline).add(5, 'days').unix() * 1000
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const now = new Date().getTime()
+      const now = dayjs().unix() * 1000
       const distance = countDown - now
 
       setStrings({
