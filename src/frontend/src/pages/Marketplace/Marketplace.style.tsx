@@ -103,9 +103,9 @@ export const MarketplaceCanvasTileScaler = styled.div<{ scale: number }>`
   transform-origin: top left;
 `
 
-export const MarketplaceCanvasTileContainer = styled.div<{ tileWidth: number; canvasWidth: number }>`
+export const MarketplaceCanvasTileContainer = styled.div<{ width: number; canvasWidth: number }>`
   display: grid;
-  grid-template-columns: repeat(${({ canvasWidth }) => canvasWidth}, ${({ tileWidth }) => tileWidth}px);
+  grid-template-columns: repeat(${({ canvasWidth }) => canvasWidth}, ${({ width }) => width}px);
 `
 
 export const MarketplaceCanvasTile = styled.div<{ width: number; height: number }>`

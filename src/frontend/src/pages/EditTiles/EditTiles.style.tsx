@@ -1,26 +1,27 @@
 import styled, { css, keyframes } from 'styled-components/macro'
-import { backgroundTextColor, borderColor, subTextColor, textColor } from 'styles'
+import { backgroundColor, borderColor, textColor } from 'styles'
 
 export const EditTilesStyled = styled.div``
 
 export const EditTilesMenu = styled.div`
-  margin-top: 60px;
+  margin: 60px 0 20px 0;
   display: grid;
-  grid-template-columns: 140px 100px 90px 10px 90px 100px 250px 200px;
+  grid-template-columns: 200px 200px 200px;
   grid-gap: 20px;
-
-  > div {
-    line-height: 36px;
-    color: ${subTextColor};
-  }
-
-  > div:nth-child(2),
-  div:nth-child(6) {
-    text-align: right;
-  }
 `
 
-export const EditTilesCanvas = styled.div<{ width: number }>`
+export const SimpleButton = styled.div`
+  cursor: pointer;
+  background: ${textColor};
+  border-radius: 5px;
+  padding: 10px;
+  color: ${backgroundColor};
+  text-align: center;
+  font-weight: bold;
+  height: 36px;
+`
+
+export const EditTilesCanvasGrid = styled.div<{ width: number }>`
   margin-top: 40px;
   display: grid;
   grid-template-columns: 50px ${({ width }) => width}px 50px;
@@ -93,9 +94,9 @@ export const EditTilesCanvasRight = styled.div<{ height: number }>`
   }
 `
 
-export const EditTilesCanvasMiddle = styled.div<{ tileWidth: number; canvasWidth: number }>`
+export const EditTilesCanvasMiddle = styled.div<{ width: number; canvasWidth: number }>`
   display: grid;
-  grid-template-columns: repeat(${({ canvasWidth }) => canvasWidth}, ${({ tileWidth }) => tileWidth}px);
+  grid-template-columns: repeat(${({ canvasWidth }) => canvasWidth}, ${({ width }) => width}px);
 `
 
 export const EditTilesTile = styled.div<{ width: number; height: number; showGrid: boolean }>`
@@ -197,4 +198,16 @@ export const TileVotingButtons = styled.div`
   grid-gap: 10px;
   margin: 10px 0;
   cursor: pointer;
+`
+
+export const EditTilesCanvasStyled = styled.div`
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  background: linear-gradient(115deg, transparent 75%, rgba(30, 30, 30, 0.8) 75%) 0 0,
+    linear-gradient(245deg, transparent 75%, rgba(30, 30, 30, 0.8) 75%) 0 0,
+    linear-gradient(115deg, transparent 75%, rgba(30, 30, 30, 0.8) 75%) 7px -15px,
+    linear-gradient(245deg, transparent 75%, rgba(30, 30, 30, 0.8) 75%) 7px -15px, #000;
+  background-size: 15px 30px;
 `

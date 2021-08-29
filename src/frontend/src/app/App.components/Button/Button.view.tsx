@@ -13,14 +13,26 @@ type ButtonViewProps = {
   clicked: boolean
   type?: ButtonTypes
   loading: boolean
+  disabled?: boolean
 }
 
-export const ButtonView = ({ text, icon, color, onClick, clickCallback, clicked, type, loading }: ButtonViewProps) => {
+export const ButtonView = ({
+  text,
+  icon,
+  color,
+  onClick,
+  clickCallback,
+  clicked,
+  type,
+  loading,
+  disabled,
+}: ButtonViewProps) => {
   let buttonClasses = color
   if (clicked) buttonClasses += ' clicked'
   if (loading) buttonClasses += ' loading'
   return (
     <ButtonStyled
+      disabled={disabled}
       className={buttonClasses}
       onClick={() => {
         clickCallback()
@@ -60,6 +72,7 @@ ButtonView.propTypes = {
   clicked: PropTypes.bool.isRequired,
   type: PropTypes.string,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 
 ButtonView.defaultProps = {
@@ -67,4 +80,5 @@ ButtonView.defaultProps = {
   color: PRIMARY,
   type: BUTTON,
   loading: false,
+  disabled: false,
 }

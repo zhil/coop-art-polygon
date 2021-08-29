@@ -1,6 +1,6 @@
-import styled, { keyframes } from 'styled-components/macro'
+import styled, { css, keyframes } from 'styled-components/macro'
 
-import { primaryColor, secondaryColor, textColor, backgroundColor } from '../../../styles'
+import { backgroundColor, primaryColor, secondaryColor, textColor } from '../../../styles'
 
 export const clickWave = keyframes`
   from {
@@ -11,7 +11,7 @@ export const clickWave = keyframes`
   }
 `
 
-export const ButtonStyled = styled.button`
+export const ButtonStyled = styled.button<{ disabled?: boolean }>`
   height: 36px;
   border: none;
   font-weight: bold;
@@ -21,6 +21,13 @@ export const ButtonStyled = styled.button`
   will-change: box-shadow;
   width: 100%;
   user-select: none;
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+      opacity: 0.5;
+    `}
 
   &.clicked {
     animation: ${clickWave} 1250ms cubic-bezier(0.19, 1, 0.22, 1);

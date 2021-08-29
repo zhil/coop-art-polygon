@@ -1,16 +1,16 @@
+import axios from 'axios'
 // prettier-ignore
-import { useAccountPkh, useOnBlock, useProvider } from "dapp/dapp";
-import { ADMIN, COOPART_ADDRESS, SUBGRAPH_URL } from 'dapp/defaults'
+import { useAccountPkh, useProvider } from "dapp/dapp";
+import { COOPART_ADDRESS, SUBGRAPH_URL } from 'dapp/defaults'
 import { ethers } from 'ethers'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Message, Page } from 'styles'
 import { createClient } from 'urql'
-import axios from 'axios'
 
-import { EditTilesView, Tile } from './EditTiles.view'
 import Token from '../../artifacts/contracts/CoopartNFT.sol/CoopartNFT.json'
+import { EditTilesView, Tile } from './EditTiles.view'
 
 export type Mint = {
   tokenUri: string
@@ -64,10 +64,11 @@ export const EditTiles = ({ setMintTransactionPendingCallback, mintTransactionPe
                 canvasId: tokenData.data.canvasId,
                 x: tokenData.data.x,
                 y: tokenData.data.y,
+                r: tokenData.data.r,
                 image: `https://ipfs.infura.io/ipfs/${tokenData.data.image.replace('ipfs://', '')}`,
                 deadline: tokenData.data.deadline,
-                tileHeight: tokenData.data.tileHeight,
-                tileWidth: tokenData.data.tileWidth,
+                height: tokenData.data.height,
+                width: tokenData.data.width,
               }
               return tile
             } else return undefined

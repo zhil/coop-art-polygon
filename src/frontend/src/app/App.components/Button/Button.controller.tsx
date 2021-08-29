@@ -12,9 +12,10 @@ type ButtonProps = {
   onClick?: () => void
   type?: ButtonTypes
   loading: boolean
+  disabled?: boolean
 }
 
-export const Button = ({ text, icon, color, onClick, type, loading }: ButtonProps) => {
+export const Button = ({ text, icon, color, onClick, type, loading, disabled }: ButtonProps) => {
   const [clicked, setClicked] = useState(false)
   const clickCallback = () => {
     setClicked(true)
@@ -30,6 +31,7 @@ export const Button = ({ text, icon, color, onClick, type, loading }: ButtonProp
       clickCallback={clickCallback}
       type={type}
       loading={loading}
+      disabled={disabled}
     />
   )
 }
@@ -41,6 +43,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   type: PropTypes.string,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 
 Button.defaultProps = {
@@ -48,4 +51,5 @@ Button.defaultProps = {
   color: PRIMARY,
   type: BUTTON,
   loading: false,
+  disabled: false,
 }

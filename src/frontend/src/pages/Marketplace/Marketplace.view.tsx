@@ -58,12 +58,12 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
             .reduce((result, currentValue) => Math.max(result, currentValue))
           const canvasWidth = xMax - xMin + 1
           const canvasHeight = yMax - yMin + 1
-          const tileWidth = tilesInCanvas[0].tileWidth
-          const tileHeight = tilesInCanvas[0].tileHeight
+          const width = tilesInCanvas[0].width
+          const height = tilesInCanvas[0].height
 
           console.log(tilesInCanvas)
 
-          const scale = Math.min(270 / (canvasWidth * tileWidth || 1), 200 / (canvasHeight * tileHeight || 1))
+          const scale = Math.min(270 / (canvasWidth * width || 1), 200 / (canvasHeight * height || 1))
 
           return (
             <MarketplaceCanvas>
@@ -76,14 +76,14 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
                         return idx + yMin
                       })
                       .map((y) => (
-                        <MarketplaceCanvasTileContainer key={`y${y}`} tileWidth={tileWidth} canvasWidth={canvasWidth}>
+                        <MarketplaceCanvasTileContainer key={`y${y}`} width={width} canvasWidth={canvasWidth}>
                           {/* @ts-ignore */}
                           {Array.apply(null, { length: canvasWidth })
                             .map(function (_, idx) {
                               return idx + xMin
                             })
                             .map((x) => (
-                              <MarketplaceCanvasTile key={`y${y}x${x}`} width={tileWidth} height={tileHeight}>
+                              <MarketplaceCanvasTile key={`y${y}x${x}`} width={width} height={height}>
                                 {tilesInCanvas.filter((tile) => tile.x === x && tile.y === y).length > 0 && (
                                   <img
                                     alt="tile"
