@@ -4,9 +4,11 @@ import { Tile } from 'pages/EditTiles/EditTiles.view'
 import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
 import { Buy } from './Marketplace.controller'
+import { Layer, Stage } from 'react-konva'
 
 // prettier-ignore
-import { MarketplaceCanvas, MarketplaceCanvasTile, MarketplaceCanvasTileContainer, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceCanvasTileSold, MarketplaceContainer, MarketplaceStyled } from './Marketplace.style'
+import { MarketplaceCanvas, MarketplaceCanvasTileContribute, MarketplaceCanvasTileCount, MarketplaceCanvasTileExpiry, MarketplaceCanvasTiles, MarketplaceCanvasTileScaler, MarketplaceContainer, MarketplaceStyled } from './Marketplace.style'
+import { EditTilesImage } from 'pages/EditTiles/EditTiles.image'
 
 type MarketplaceViewProps = {
   tiles: Tile[]
@@ -38,67 +40,34 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
 
   return (
     <MarketplaceStyled>
-      <h1>Tile-based Canvases</h1>
       <MarketplaceContainer>
         {canvasIds.map((canvasId) => {
           const tilesInCanvas = tiles.filter((tile) => tile.canvasId === canvasId)
           const deadline = tiles.filter((tile) => tile.canvasId === canvasId)[0].deadline
-
-          const xMin = tilesInCanvas
-            .map((tile) => tile.x)
-            .reduce((result, currentValue) => Math.min(result, currentValue))
-          const xMax = tilesInCanvas
-            .map((tile) => tile.x)
-            .reduce((result, currentValue) => Math.max(result, currentValue))
-          const yMin = tilesInCanvas
-            .map((tile) => tile.y)
-            .reduce((result, currentValue) => Math.min(result, currentValue))
-          const yMax = tilesInCanvas
-            .map((tile) => tile.y)
-            .reduce((result, currentValue) => Math.max(result, currentValue))
-          const canvasWidth = xMax - xMin + 1
-          const canvasHeight = yMax - yMin + 1
-          const width = tilesInCanvas[0].width
-          const height = tilesInCanvas[0].height
-
           console.log(tilesInCanvas)
-
-          const scale = Math.min(270 / (canvasWidth * width || 1), 200 / (canvasHeight * height || 1))
 
           return (
             <MarketplaceCanvas>
               <MarketplaceCanvasTiles>
-                <MarketplaceCanvasTileScaler scale={scale}>
-                  {
-                    //@ts-ignore
-                    Array.apply(null, { length: canvasHeight })
-                      .map(function (_, idx) {
-                        return idx + yMin
-                      })
-                      .map((y) => (
-                        <MarketplaceCanvasTileContainer key={`y${y}`} width={width} canvasWidth={canvasWidth}>
-                          {/* @ts-ignore */}
-                          {Array.apply(null, { length: canvasWidth })
-                            .map(function (_, idx) {
-                              return idx + xMin
-                            })
-                            .map((x) => (
-                              <MarketplaceCanvasTile key={`y${y}x${x}`} width={width} height={height}>
-                                {tilesInCanvas.filter((tile) => tile.x === x && tile.y === y).length > 0 && (
-                                  <img
-                                    alt="tile"
-                                    src={
-                                      tilesInCanvas
-                                        .filter((tile) => tile.x === x && tile.y === y)
-                                        .map((tile) => tile.image)[0]
-                                    }
-                                  />
-                                )}
-                              </MarketplaceCanvasTile>
-                            ))}
-                        </MarketplaceCanvasTileContainer>
-                      ))
-                  }
+                <MarketplaceCanvasTileScaler scale={0.22}>
+                  <Stage width={1240} height={920}>
+                    <Layer>
+                      {tilesInCanvas.map((tile: Tile) => (
+                        <EditTilesImage
+                          key={tile.tileId}
+                          url={tile.image.replace('ipfs://', 'https://ipfs.infura.io/ipfs/')}
+                          imgProps={{
+                            x: tile.x,
+                            y: tile.y,
+                            r: tile.r,
+                            width: tile.width,
+                            height: tile.height,
+                          }}
+                          isSelected={false}
+                        />
+                      ))}
+                    </Layer>
+                  </Stage>
                 </MarketplaceCanvasTileScaler>
               </MarketplaceCanvasTiles>
               <MarketplaceCanvasTileCount>
@@ -108,7 +77,7 @@ export const MarketplaceView = ({ tiles, buyCallback }: MarketplaceViewProps) =>
                 <div>{`${tiles.filter((tile) => tile.canvasId === canvasId).length} tiles`}</div>
               </MarketplaceCanvasTileCount>
 
-              {dayjs(deadline).add(5, 'days').unix() - dayjs().unix() > 0 ? (
+              {dayjs(deadline).unix() - dayjs().unix() > 0 ? (
                 <>
                   <MarketplaceCanvasTileExpiry>
                     <svg>

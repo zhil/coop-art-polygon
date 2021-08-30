@@ -7,7 +7,7 @@ import { useAlert } from 'react-alert'
 import { EditTilesCanvas } from './EditTiles.canvas'
 import { Mint, Vote } from './EditTiles.controller'
 // prettier-ignore
-import { EditTilesLoading, EditTilesMenu, EditTilesStyled, SimpleButton } from "./EditTiles.style";
+import { EditTilesLoading, EditTilesMenu, EditTilesStyled, EditTilesVoting, SimpleButton, TileVoting, TileVotingButtons, TileVotingImg } from "./EditTiles.style";
 
 const client = create({ url: 'https://ipfs.infura.io:5001/api/v0' })
 // const client = new NFTStorage({
@@ -90,19 +90,33 @@ export const EditTilesView = ({
       // Upload to IPFS
       const uploadedImage = await client.add(file)
 
-      setNewTile({
-        tileId,
-        canvasId: canvasId as string,
-        x: 0,
-        y: 0,
-        r: 0,
-        image: `ipfs://${uploadedImage.path}`,
-        deadline,
-        width: 100,
-        height: 100,
-      })
+      // Get image size
+      var reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = function (e) {
+        var image = new Image()
+        //@ts-ignore
+        image.src = e.target.result
+        image.onload = function () {
+          //@ts-ignore
+          console.log('onload', this.width, this.height)
+          setNewTile({
+            tileId,
+            canvasId: canvasId as string,
+            x: 0,
+            y: 0,
+            r: 0,
+            image: `ipfs://${uploadedImage.path}`,
+            deadline,
+            //@ts-ignore
+            width: this.width,
+            //@ts-ignore
+            height: this.height,
+          })
 
-      setIsUploading(false)
+          setIsUploading(false)
+        }
+      }
     } catch (error) {
       alert.error(error.message)
       console.error(error)
@@ -135,6 +149,8 @@ export const EditTilesView = ({
       const uploadedJson = await client.add(Buffer.from(JSON.stringify(json)))
 
       const tokenUri = `ipfs://${uploadedJson.path}`
+
+      console.log('tokenUri', tokenUri)
 
       // Mint token
       mintCallback({ tokenUri, canvasId: canvasId as string })
@@ -169,22 +185,6 @@ export const EditTilesView = ({
     setNewTile(tile)
   }
 
-  //   <TileVoting>
-  //   Vote on tile:
-  //   <TileVotingButtons>
-  //     <img
-  //       alt="check"
-  //       src="/icons/check.svg"
-  //       onClick={() => handleVote(tilesThere.map((tile) => tile.tileId)[0], true)}
-  //     />
-  //     <img
-  //       alt="cross"
-  //       src="/icons/cross.svg"
-  //       onClick={() => handleVote(tilesThere.map((tile) => tile.tileId)[0], false)}
-  //     />
-  //   </TileVotingButtons>
-  // </TileVoting>
-
   return (
     <EditTilesStyled>
       <EditTilesMenu>
@@ -208,9 +208,9 @@ export const EditTilesView = ({
         )}
 
         {newTile ? (
-          <Button text="Mint tile" icon="price" loading={isMinting} onClick={() => handleMint(newTile)} />
+          <Button text="Mint layer" icon="price" loading={isMinting} onClick={() => handleMint(newTile)} />
         ) : (
-          <Button text="Mint tile" icon="price" disabled onClick={() => {}} />
+          <Button text="Mint layer" icon="price" disabled onClick={() => {}} />
         )}
 
         <div>
@@ -226,6 +226,17 @@ export const EditTilesView = ({
       </EditTilesMenu>
 
       <EditTilesCanvas existingTiles={existingTiles} newTile={newTile} updateTileCallback={updateTileCallback} />
+
+      <EditTilesVoting>
+        {existingTiles.map((tile: Tile) => (
+          <TileVoting>
+            <img alt="layer" src={tile.image} />
+            <div>Layer ID {tile.tileId}</div>
+            <img alt="check" src="/icons/check.svg" onClick={() => handleVote(tile.tileId, true)} />
+            <img alt="cross" src="/icons/cross.svg" onClick={() => handleVote(tile.tileId, false)} />
+          </TileVoting>
+        ))}
+      </EditTilesVoting>
     </EditTilesStyled>
   )
 }

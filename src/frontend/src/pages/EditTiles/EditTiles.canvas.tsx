@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Layer, Stage } from 'react-konva'
 
 import { EditTilesImage } from './EditTiles.image'
 // prettier-ignore
-import { EditTilesCanvasStyled, TileVoting } from "./EditTiles.style";
+import { EditTilesCanvasStyled } from "./EditTiles.style";
 import { Tile } from './EditTiles.view'
 
 type EditTilesCanvasProps = {
@@ -21,11 +21,22 @@ export const EditTilesCanvas = ({ existingTiles, newTile, updateTileCallback }: 
     r: newTile && newTile.r ? newTile.r : 0,
   })
 
-  console.log('existingTiles', existingTiles)
+  // console.log('newTile', newTile)
+  // console.log('existingTiles', existingTiles)
+
+  useEffect(() => {
+    setImageAttrs({
+      x: newTile && newTile.x ? newTile.x : 0,
+      y: newTile && newTile.y ? newTile.y : 0,
+      width: newTile && newTile.width ? newTile.width : 100,
+      height: newTile && newTile.height ? newTile.height : 100,
+      r: newTile && newTile.r ? newTile.r : 0,
+    })
+  }, [newTile])
 
   return (
     <EditTilesCanvasStyled>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Stage width={1240} height={920}>
         <Layer>
           {existingTiles.map((tile) => (
             <EditTilesImage

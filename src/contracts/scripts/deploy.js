@@ -1,7 +1,5 @@
 const hre = require("hardhat");
 
-import nfts from './nfts'
-
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
 

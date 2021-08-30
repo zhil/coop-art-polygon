@@ -8,7 +8,7 @@ dataSources:
     name: CoopartNFT # Change me
     network: mumbai
     source:
-      address: '0xC5745209053E2b11122451bDaf8AeE2B4fF586d3' # Change me
+      address: '0x3EF4090000e4d36eB130FF605a97EF0b9E2f2D04' # Change me
       abi: ERC721
       startBlock: 17566210 # Change me
     mapping:

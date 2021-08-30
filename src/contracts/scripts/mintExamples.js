@@ -1,28 +1,28 @@
 const hre = require("hardhat");
 
-const contractAddress = `0xC5745209053E2b11122451bDaf8AeE2B4fF586d3`
+const contractAddress = `0x3EF4090000e4d36eB130FF605a97EF0b9E2f2D04`
 
 const tokens = [
 //horse
-// 'ipfs://QmWsM6Xa6DCfS2MvvMNdAwPMuY8iBmJ66NTHoyLVdGC4RR',
-// 'ipfs://QmVZZHjGUKZLXbr6FrVXoqPpju9P1RR4rnZEtrv8ZGpagL',
-// 'ipfs://QmavnC9Q3TLUYGxXgr2yBiBL88pzGyRcr9QixJiAR4kdJ2',
-//rage
-{ uri: 'ipfs://QmYqWC1DaxFnRFDmBnvjUXRH69pyknS9N1j8Krd6ZxkgEQ', canvasId:'3jwho'},
-{ uri: 'ipfs://QmbE4i2efrK8dEJ5tY9CRS2L6irpjJE68b3rme9p6yPZcg', canvasId:'3jwho'},
-{ uri: 'ipfs://QmWYujjetgxNrqKJV3ezt7TGCiBz8UkTvFn7YEJs9Eotjr', canvasId:'3jwho'},
-{ uri: 'ipfs://QmWECYF6qa8nWoDYrZ8nv2AbWKPiMUzRX3A4gPzPSg67Qt', canvasId:'3jwho'},
-{ uri: 'ipfs://QmUmZ238hS527phJGh14VTi9mE6kJMXHk7uJHn8fNYe7zs', canvasId:'3jwho'},
-{ uri: 'ipfs://QmPynaeabVtRsEYKyirgQajg5tNnLDjFPf1qJzVtiDrctN', canvasId:'3jwho'},
-{ uri: 'ipfs://QmWj1HDMgeTBxqJe1gYcyQJDgxisopLyqYK7KSb4Wuyp9b', canvasId:'3jwho'},
-// 'ipfs://QmTc2cGt1fCQktqrtKJwLGZtqgCFFAJu4x5TLy7L7A6qFV',
-//comic
-{ uri: 'ipfs://Qmf6VuVFVR9ZErWBDVYRAhXSsNBT2Nh46mcxKh3eHNqM8D', canvasId:'jiqnu'},
-{ uri: 'ipfs://QmevWvzDBKJqr8E812y4JHiygYXZSu1rQKZ7zkWyFzQXGN', canvasId:'jiqnu'},
-{ uri: 'ipfs://QmYroeNndoo1N48s55Yq19HD6tECncCDtMWhnTEB3Xq9Vf', canvasId:'jiqnu'},
-{ uri: 'ipfs://QmdQNBdG7vMpkp47Ewi86ZCBxrobL6vxEP8zy6JWshfLLg', canvasId:'jiqnu'},
-{ uri: 'ipfs://QmQF2iBHSx4enxUEJRiAaHxJCVQn46SgB5qzfcSRTWg5ih', canvasId:'jiqnu'},
-{ uri: 'ipfs://Qme7sSnfJmLVfS4AymPXT8zCBLWAiRf9x1SHVRf3jcdRHB', canvasId:'jiqnu'}
+// { uri: 'ipfs://QmQFFuK5JJmb1qdqBfQEmth4ZUkoedW1HStxxEKXtmiz4v', canvasId:'em5jv'},
+// { uri: 'ipfs://QmRLnBbTqdRAAGnm2FNoXjFZwCZbbrHi3nj4bYPGFpjYjC', canvasId:'em5jv'},
+// { uri: 'ipfs://QmSJsfu13XSK9axjxhPwQHVrwwX3Teme8buHtWQfdxX23q', canvasId:'em5jv'},
+// { uri: 'ipfs://QmUdxKRG8yt2U8NwkfMrJog5vGM12QhW9PN3YK5R9BPijd', canvasId:'em5jv'},
+// { uri: 'ipfs://QmRe7RY4rV7qVYAyYRYDGbEF3FndzKyFiSKM8Q7vwgpqpV', canvasId:'em5jv'},
+// { uri: 'ipfs://QmbFB2aijp4rroPYM8tZrVnhvocuVcDoqTBRKSm8EynaMQ', canvasId:'em5jv'},
+//nature
+{ uri: 'ipfs://QmQFFuK5JJmb1qdqBfQEmth4ZUkoedW1HStxxEKXtmiz4v', canvasId:'em5jv'},
+{ uri: 'ipfs://QmRLnBbTqdRAAGnm2FNoXjFZwCZbbrHi3nj4bYPGFpjYjC', canvasId:'em5jv'},
+{ uri: 'ipfs://QmSJsfu13XSK9axjxhPwQHVrwwX3Teme8buHtWQfdxX23q', canvasId:'em5jv'},
+{ uri: 'ipfs://QmUdxKRG8yt2U8NwkfMrJog5vGM12QhW9PN3YK5R9BPijd', canvasId:'em5jv'},
+{ uri: 'ipfs://QmRe7RY4rV7qVYAyYRYDGbEF3FndzKyFiSKM8Q7vwgpqpV', canvasId:'em5jv'},
+{ uri: 'ipfs://QmbFB2aijp4rroPYM8tZrVnhvocuVcDoqTBRKSm8EynaMQ', canvasId:'em5jv'},
+//miami
+{ uri: 'ipfs://QmNUTRs4Ypmyj9QKrq4jmcQKgVJo9jUPRDVVzP2izuNuTJ', canvasId:'wmlag'},
+{ uri: 'ipfs://QmZ2Wn6CprF15xpqDXVZHLQ7GS9VVPiHPFX4KTTdEK3tKC', canvasId:'wmlag'},
+{ uri: 'ipfs://QmWeNAkx5R1WPcBbKoGurLUwJitxg2ZqZXAJ8CfQBaPMfZ', canvasId:'wmlag'},
+{ uri: 'ipfs://Qmc8ee6SWAMjeSsLjdXdcTnzsEy6rBgEccLqT5v7ks9UVH', canvasId:'wmlag'},
+{ uri: 'ipfs://QmSknhaTUVoXp7S5Pace8QLPWitQUs7w8mjVgP9onyf6ug', canvasId:'wmlag'},
 ]
 
 //takes array of thunks

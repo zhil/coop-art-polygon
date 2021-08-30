@@ -19,7 +19,7 @@ export const HeaderView = ({ accountPkhPreview, handleConnect }: HeaderViewProps
 
       <Link to="/marketplace">Marketplace</Link>
 
-      <Link to="/create">New canvas</Link>
+      <Link to="/edit-tiles">New canvas</Link>
 
       {
         <div>

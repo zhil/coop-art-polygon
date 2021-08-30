@@ -189,7 +189,28 @@ export const EditTilesLoading = styled.div`
 `
 
 export const TileVoting = styled.div`
-  margin: 10px 0;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 40% 30% 15% 15%;
+  grid-gap: 10px;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  padding: 10px;
+
+  > img:nth-child(1) {
+    max-height: 100px;
+    max-width: 200px;
+  }
+
+  > div {
+    line-height: 100px;
+  }
+
+  > img:nth-child(3),
+  > img:nth-child(4) {
+    margin: 40px;
+    cursor: pointer;
+  }
 `
 
 export const TileVotingButtons = styled.div`
@@ -211,3 +232,7 @@ export const EditTilesCanvasStyled = styled.div`
     linear-gradient(245deg, transparent 75%, rgba(30, 30, 30, 0.8) 75%) 7px -15px, #000;
   background-size: 15px 30px;
 `
+
+export const EditTilesVoting = styled.div``
+
+export const TileVotingImg = styled.img``

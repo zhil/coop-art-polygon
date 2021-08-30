@@ -33,7 +33,7 @@ export const EditTilesImage = ({ imgProps, url, isSelected, onSelect, onChange }
         ref={imgRef}
         rotationDeg={imgProps.r}
         {...imgProps}
-        draggable
+        draggable={isSelected}
         onDragEnd={(e) => {
           onChange({
             ...imgProps,
@@ -64,7 +64,7 @@ export const EditTilesImage = ({ imgProps, url, isSelected, onSelect, onChange }
         <Transformer
           //@ts-ignore
           ref={trRef}
-          centeredScaling={true}
+          centeredScaling={false}
           rotationSnaps={[0, 90, 180, 270]}
           boundBoxFunc={(oldBox, newBox) => {
             // limit resize
